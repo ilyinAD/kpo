@@ -20,7 +20,7 @@ public class ZooController {
         if (error.isPresent()) {
             System.out.println("Животное " + animal.getName() + " с типом " + animal.getType() + " не прошло проверку здоровья.");
         } else {
-            System.out.println("Животное " + animal.getName() + " с типом " + animal.getType() + "было добавлено.");
+            System.out.println("Животное " + animal.getName() + " с типом " + animal.getType() + " было добавлено.");
         }
     }
 
@@ -31,6 +31,6 @@ public class ZooController {
 
     public void printContactAnimals() {
         System.out.println("Животные, которых можно отправить в контактный зоопарк:");
-        zooService.getContactAnimals().forEach(a -> System.out.println(a.getName()));
+        zooService.getContactAnimals().forEach(a -> System.out.println("жвиотное " + a.getName() + " с id:" + a.getNumber()));
     }
 }

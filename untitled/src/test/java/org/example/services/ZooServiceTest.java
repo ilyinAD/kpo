@@ -1,9 +1,7 @@
 package org.example.services;
 
 import org.example.controllers.ZooController;
-import org.example.domain.Animal;
-import org.example.domain.Herbivore;
-import org.example.domain.Predator;
+import org.example.domain.*;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -21,7 +19,7 @@ public class ZooServiceTest {
 
     @Test
     void addAnimalTestDontPassOnHealth() {
-        Animal animal = new Herbivore("parrot", 100, 1, 5);
+        Animal animal = new Monkey(100, 1, 5);
 
         VetClinic vetClinicMock = mock(VetClinic.class);
         when(vetClinicMock.checkHealth(animal)).thenReturn(false);
@@ -33,7 +31,7 @@ public class ZooServiceTest {
 
     @Test
     void addAnimalTestPassOnHealth() {
-        Animal animal = new Herbivore("parrot", 100, 1, 5);
+        Animal animal = new Monkey(100, 1, 5);
 
         VetClinic vetClinicMock = mock(VetClinic.class);
         when(vetClinicMock.checkHealth(animal)).thenReturn(true);
@@ -46,9 +44,9 @@ public class ZooServiceTest {
     @Test
     void getFoodConsumptionTest() {
         VetClinic vetClinicMock = mock(VetClinic.class);
-        Animal parrot = new Herbivore("parrot", 10, 1, 5);
-        Animal lion = new Predator("Lion", 20, 2);
-        Animal rabbit = new Herbivore("Rabbit", 15, 3, 5);
+        Animal parrot = new Monkey( 10, 1, 5);
+        Animal lion = new Tiger(20, 2);
+        Animal rabbit = new Monkey( 15, 3, 5);
         when(vetClinicMock.checkHealth(parrot)).thenReturn(true);
         when(vetClinicMock.checkHealth(lion)).thenReturn(false);
         when(vetClinicMock.checkHealth(rabbit)).thenReturn(true);
@@ -62,9 +60,9 @@ public class ZooServiceTest {
     @Test
     void getContactZooAnimalsTest() {
         VetClinic vetClinicMock = mock(VetClinic.class);
-        Animal parrot = new Herbivore("parrot", 10, 1, 5);
-        Animal lion = new Predator("Lion", 20, 2);
-        Animal rabbit = new Herbivore("Rabbit", 15, 3, 6);
+        Animal parrot = new Monkey( 10, 1, 5);
+        Animal lion = new Tiger( 20, 2);
+        Animal rabbit = new Monkey(15, 3, 6);
         when(vetClinicMock.checkHealth(parrot)).thenReturn(true);
         when(vetClinicMock.checkHealth(lion)).thenReturn(false);
         when(vetClinicMock.checkHealth(rabbit)).thenReturn(true);

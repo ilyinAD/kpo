@@ -1,8 +1,8 @@
 package org.example;
 
-import org.example.domain.Herbivore;
-import org.example.domain.Predator;
+import org.example.domain.*;
 import org.example.controllers.ZooController;
+import org.example.services.AnimalFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -15,13 +15,15 @@ import java.util.*;
 @ComponentScan(basePackages = "org.example")
 public class Main implements CommandLineRunner{
     private final ZooController zooController;
+    private final AnimalFactory animalFactory;
     @Autowired
-    public Main(ZooController zooController) {
+    public Main(ZooController zooController, AnimalFactory animalFactory) {
         this.zooController = zooController;
+        this.animalFactory = animalFactory;
     }
 
     @Override
-    public void run(String... args) throws Exception {
+    public void run(String... args) {
         Scanner scanner = new Scanner(System.in);
         while (true) {
             System.out.println("1. Добавить травоядное животное");
@@ -34,26 +36,51 @@ public class Main implements CommandLineRunner{
             scanner.nextLine();
             String name;
             int food, kind, num;
+            AnimalType animalType;
+            Animal animal;
             switch (choice) {
                 case 1:
-                    System.out.print("Введите имя: ");
+                    System.out.print("Введите животное которое хотите добавить." +
+                            " Доступные животные: кролик, обезьяна\n");
                     name = scanner.nextLine();
+                    try {
+                        animalType = AnimalType.fromString(name);
+                    } catch (IllegalArgumentException e) {
+                        System.out.println("Такого животного нет");
+                        break;
+                    }
+
+                    if (animalType == null) {
+                        break;
+                    }
+
                     System.out.print("Введите количество еды (кг): ");
                     food = scanner.nextInt();
-                    System.out.print("Введите инвентарный номер: ");
-                    num = scanner.nextInt();
                     System.out.print("Введите уровень доброты (0-10): ");
                     kind = scanner.nextInt();
-                    zooController.addAnimal(new Herbivore(name, food, num, kind));
+                    animal = animalFactory.createAnimal(animalType, food, kind);
+                    zooController.addAnimal(animal);
                     break;
                 case 2:
-                    System.out.print("Введите имя: ");
+                    System.out.print("Введите животное которое хотите добавить." +
+                            " Доступные животные: тигр, волк\n");
                     name = scanner.nextLine();
+
+                    try {
+                        animalType = AnimalType.fromString(name);
+                    } catch (IllegalArgumentException e) {
+                        System.out.println("Такого животного нет");
+                        break;
+                    }
+
+                    if (animalType == null) {
+                        break;
+                    }
+
                     System.out.print("Введите количество еды (кг): ");
                     food = scanner.nextInt();
-                    System.out.print("Введите инвентарный номер: ");
-                    num = scanner.nextInt();
-                    zooController.addAnimal(new Predator(name, food, num));
+                    animal = animalFactory.createAnimal(animalType, food, null);
+                    zooController.addAnimal(animal);
                     break;
                 case 3:
                     zooController.printGeneralFood();

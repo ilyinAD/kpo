@@ -1,10 +1,10 @@
 package org.example.domain;
 
-public class Herbivore extends Animal {
+public abstract class Herbivore extends Animal {
     private int kind;
 
-    public Herbivore(String name, int food, int number, int kindness) {
-        super(name, food, number);
+    public Herbivore(int food, int number, int kindness) {
+        super(food, number);
         this.kind = kindness;
         type = "Травоядный";
     }
