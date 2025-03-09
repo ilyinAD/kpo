@@ -1,0 +1,7 @@
+- id: 1
+  type: доход
+  bankAccountId: 1
+  amount: 10
+  date: 2022-01-01
+  description: Оплата труда
+  categoryId: 2
