@@ -1,4 +1,4 @@
-package org.example.services;
+package org.example.services.domainservices;
 
 import org.example.domain.Category;
 import org.example.interfaces.SaveServiceInterface;
@@ -16,10 +16,13 @@ public class CategoryService implements SaveServiceInterface<Category> {
     }
 
     @Override
-    public void AddList(List<Category> categories) {
+    public void addList(List<Category> categories) {
         categories.forEach(categoryRepository::save);
     }
 
+    public void add(Category category) {
+        categoryRepository.save(category);
+    }
     public List<Category> getAllCategories() {
         return categoryRepository.findAll();
     }

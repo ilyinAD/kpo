@@ -1,9 +1,9 @@
 package org.example.services.importer;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.example.services.BankAccountService;
-import org.example.services.CategoryService;
-import org.example.services.OperationService;
+import org.example.services.domainservices.BankAccountService;
+import org.example.services.domainservices.CategoryService;
+import org.example.services.domainservices.OperationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;

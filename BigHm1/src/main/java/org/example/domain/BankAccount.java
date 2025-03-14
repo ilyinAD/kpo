@@ -8,18 +8,15 @@ import lombok.Setter;
 
 import java.util.UUID;
 
-@Getter @Setter
+@Getter
 public class BankAccount {
-
-    public BankAccount() {};
-
     private int id;
 
     private String name;
 
     private double balance;
 
-    private BankAccount(int id, String name, double balance) {
+    BankAccount(int id, String name, double balance) {
         System.out.println("private constructor");
         this.id = id;
         this.name = name;
@@ -30,6 +27,11 @@ public class BankAccount {
         System.out.println("static create");
         return new BankAccount(id, name, balance);
     }
+
+//    public static BankAccount create(int id, String name, double balance) {
+//        System.out.println("static create");
+//        return new BankAccount(id, name, balance);
+//    }
 
     @Override
     public String toString() {

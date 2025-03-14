@@ -1,9 +1,8 @@
 package org.example.controllers;
 
-import org.example.services.OperationService;
+import org.example.domain.Operation;
+import org.example.services.domainservices.OperationService;
 import org.springframework.stereotype.Controller;
-
-import java.awt.*;
 
 @Controller
 public class OperationController {
@@ -11,7 +10,9 @@ public class OperationController {
     public OperationController(OperationService operationService) {
         this.operationService = operationService;
     }
-
+    public void addOperation(Operation operation) {
+        operationService.add(operation);
+    }
     public void printAllOperations() {
         operationService.getAllOperations().forEach(System.out::println);
     }

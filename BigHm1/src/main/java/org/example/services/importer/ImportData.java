@@ -4,9 +4,9 @@ import org.example.domain.BankAccount;
 import org.example.domain.Category;
 import org.example.domain.Operation;
 import org.example.interfaces.SaveServiceInterface;
-import org.example.services.BankAccountService;
-import org.example.services.CategoryService;
-import org.example.services.OperationService;
+import org.example.services.domainservices.BankAccountService;
+import org.example.services.domainservices.CategoryService;
+import org.example.services.domainservices.OperationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -50,7 +50,7 @@ abstract class ImportData {
     }
 
     public <T> void saveData(List<T> data, SaveServiceInterface<T> service) throws IllegalArgumentException{
-        service.AddList(data);
+        service.addList(data);
     }
     public abstract <T> List<T> parseData(String data, Class<T> type) throws IOException;
     public String readData(String filePath) throws IOException {

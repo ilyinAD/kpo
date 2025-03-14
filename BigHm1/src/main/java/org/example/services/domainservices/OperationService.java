@@ -1,4 +1,4 @@
-package org.example.services;
+package org.example.services.domainservices;
 
 import org.example.domain.Operation;
 import org.example.interfaces.SaveServiceInterface;
@@ -17,10 +17,13 @@ public class OperationService implements SaveServiceInterface<Operation> {
     }
 
     @Override
-    public void AddList(List<Operation> operations) {
+    public void addList(List<Operation> operations) {
         operations.forEach(operationRepository::save);
     }
 
+    public void add(Operation operation) {
+        operationRepository.save(operation);
+    }
     public List<Operation> getAllOperations() {
         return operationRepository.findAll();
     }

@@ -1,1 +1,3 @@
 amount,bankAccountId,categoryId,date,description,id,type
+10.0,1,2,1767225600000,"оплата труда",1,EXPENSE
+120.0,2,1,1602277200000,хз,131,INCOME

@@ -7,9 +7,9 @@ import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 import org.example.domain.BankAccount;
 import org.example.domain.Category;
 import org.example.domain.Operation;
-import org.example.services.BankAccountService;
-import org.example.services.CategoryService;
-import org.example.services.OperationService;
+import org.example.services.domainservices.BankAccountService;
+import org.example.services.domainservices.CategoryService;
+import org.example.services.domainservices.OperationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -47,7 +47,6 @@ public class ExportDataService {
             default:
                 throw new IllegalArgumentException("Unsupported file type");
         }
-
     }
     private <T> void writeJson(List<T> dataList, Class<T> type, String jsonFilePath) throws IOException {
         ObjectMapper objectMapper = new ObjectMapper();

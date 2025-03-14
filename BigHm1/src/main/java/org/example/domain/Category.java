@@ -9,10 +9,10 @@ import java.util.UUID;
 @Getter
 public class Category {
     private final int id;
-    private final String type;
+    private final OperationType type;
     private final String name;
 
-    private Category(int id, String type, String name) {
+    private Category(int id, OperationType type, String name) {
         this.id = id;
         this.type = type;
         this.name = name;
@@ -20,7 +20,12 @@ public class Category {
 
     @JsonCreator
     public static Category create(@JsonProperty("id") int id, @JsonProperty("type") String type, @JsonProperty("name") String name) {
-        return new Category(id, type, name);
+        OperationType operationType = OperationType.fromString(type);
+        if (operationType == null) {
+            throw new IllegalArgumentException("Invalid operation type: " + type);
+        }
+
+        return new Category(id, operationType, name);
     }
 
     @Override

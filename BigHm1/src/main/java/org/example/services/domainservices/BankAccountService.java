@@ -1,4 +1,4 @@
-package org.example.services;
+package org.example.services.domainservices;
 
 import org.example.domain.BankAccount;
 import org.example.interfaces.SaveServiceInterface;
@@ -17,8 +17,12 @@ public class BankAccountService implements SaveServiceInterface<BankAccount> {
         this.repository = repository;
     }
 
-    public void AddList(List<BankAccount> accounts) {
+    public void addList(List<BankAccount> accounts) {
         accounts.forEach(repository::save);
+    }
+
+    public void add(BankAccount account) {
+        repository.save(account);
     }
     public List<BankAccount> getAllAccounts() {
         return repository.findAll();

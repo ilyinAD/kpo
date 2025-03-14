@@ -2,7 +2,7 @@ package org.example.services.analytics;
 
 import org.springframework.stereotype.Service;
 
-public class TimeCounterCommand<T> implements AnalyticCommandInterface{
+public class TimeCounterCommand<T> implements AnalyticCommandInterface<T>{
     private final AnalyticCommandInterface<T> command;
 
     public TimeCounterCommand(AnalyticCommandInterface<T> command) {
@@ -11,16 +11,11 @@ public class TimeCounterCommand<T> implements AnalyticCommandInterface{
 
 
     @Override
-    public T execute() {
+    public T execute(Object... parameters) {
         long start = System.nanoTime();
-        T result = command.execute();
+        T result = command.execute(parameters);
         long end = System.nanoTime();
-        System.out.println("Execution time: " + (end - start) / 1_000_000.0 + " ms");
+        System.out.println(STR."Execution time: \{(end - start) / 1_000_000.0} ms");
         return result;
-    }
-
-    @Override
-    public void setParameters(Object... parameters) {
-        command.setParameters(parameters);
     }
 }
