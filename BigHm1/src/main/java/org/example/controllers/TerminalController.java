@@ -51,7 +51,7 @@ public class TerminalController {
             importData.importData("datacsv\\bankAccounts.csv", "datacsv\\categories.csv", "datacsv\\operations.csv");
         }
         catch (Exception e) {
-            System.out.println(STR."Ошибка импорта данных: \{e.getMessage()}");
+            System.out.println("Ошибка импорта данных: " + e.getMessage());
             return;
         }
 
@@ -74,9 +74,9 @@ public class TerminalController {
                         addBankAccount();
                     } catch (InputMismatchException e) {
                         scanner.nextLine();
-                        System.out.println(STR."Ошибка добавления счета: \{e.getMessage()}");
+                        System.out.println("Ошибка добавления счета: " + e.getMessage());
                     } catch (InvalidArgumentException e) {
-                        System.out.println(STR."Ошибка добавления счета: \{e.getMessage()}");
+                        System.out.println("Ошибка добавления счета: " + e.getMessage());
                     }
 
                     break;
@@ -85,9 +85,9 @@ public class TerminalController {
                         addCategory();
                     } catch (InputMismatchException e) {
                         scanner.nextLine();
-                        System.out.println(STR."Ошибка добавления категории: \{e.getMessage()}");
+                        System.out.println("Ошибка добавления категории: " + e.getMessage());
                     } catch (InvalidArgumentException e) {
-                        System.out.println(STR."Ошибка добавления категории: \{e.getMessage()}");
+                        System.out.println("Ошибка добавления категории: " + e.getMessage());
                     }
 
                     break;
@@ -96,9 +96,9 @@ public class TerminalController {
                         addOperation();
                     } catch (InputMismatchException e) {
                         scanner.nextLine();
-                        System.out.println(STR."Ошибка добавления операции: \{e.getMessage()}");
+                        System.out.println("Ошибка добавления операции: " + e.getMessage());
                     } catch (ParseException | InvalidArgumentException e) {
-                        System.out.println(STR."Ошибка добавления операции: \{e.getMessage()}");
+                        System.out.println("Ошибка добавления операции: " + e.getMessage());
                     }
 
                     break;
@@ -131,7 +131,7 @@ public class TerminalController {
         try {
             exportData.Export("datacsv\\bankAccounts.csv", "datacsv\\categories.csv", "datacsv\\operations.csv", "csv");
         } catch (Exception e) {
-            System.out.println(STR."Ошибка экспорта данных: \{e.getMessage()}");
+            System.out.println("Ошибка экспорта данных: " + e.getMessage());
         }
     }
 
@@ -221,7 +221,7 @@ public class TerminalController {
         try {
             analyticController.CountDifference(startDate, endDate);
         } catch (Exception e) {
-            System.out.println(STR."Ошибка подсчета разницы доходов за выбранный период: \{e.getMessage()}");
+            System.out.println("Ошибка подсчета разницы доходов за выбранный период: " + e.getMessage());
         }
     }
 }

@@ -21,7 +21,7 @@ public class AnalyticController {
     public void CountDifference(Date startDate, Date endDate) throws Exception {
         try {
             Double a = analyticFacade.getDifferenceCounterCommand(true).execute(startDate, endDate);
-            System.out.println(STR."Посчитанная разница для стартовой даты \{startDate} и конечной даты \{endDate}");
+            System.out.println("Посчитанная разница для стартовой даты " + startDate + " и конечной даты " + endDate);
             System.out.println(a);
         } catch (IllegalArgumentException e) {
             throw new Exception(e.getMessage());

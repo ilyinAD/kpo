@@ -15,7 +15,7 @@ public class TimeCounterCommand<T> implements AnalyticCommandInterface<T>{
         long start = System.nanoTime();
         T result = command.execute(parameters);
         long end = System.nanoTime();
-        System.out.println(STR."Execution time: \{(end - start) / 1_000_000.0} ms");
+        System.out.println("Execution time: " + (end - start) / 1_000_000.0 + " ms");
         return result;
     }
 }

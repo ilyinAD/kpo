@@ -23,7 +23,7 @@ public class Category {
     public static Category create(@JsonProperty("type") String type, @JsonProperty("name") String name) throws InvalidArgumentException {
         OperationType operationType = OperationType.fromString(type);
         if (operationType == null) {
-            throw new InvalidArgumentException(STR."Invalid operation type: \{type}");
+            throw new InvalidArgumentException("Invalid operation type: " + type);
         }
 
         String id = UUID.randomUUID().toString();
@@ -34,7 +34,7 @@ public class Category {
     public static Category create(String id, String type, String name) throws InvalidArgumentException {
         OperationType operationType = OperationType.fromString(type);
         if (operationType == null) {
-            throw new InvalidArgumentException(STR."Invalid operation type: \{type}");
+            throw new InvalidArgumentException("Invalid operation type: " + type);
         }
 
         return new Category(id, operationType, name);
@@ -42,6 +42,12 @@ public class Category {
 
     @Override
     public String toString() {
-        return STR."Category{id=\{id}, type='\{type}\{'\''}, name='\{name}\{'\''}\{'}'}";
+        return "Category{" +
+                "id='" + id + '\'' +
+                ", name='" + name + '\'' +
+                ", type=" + type +
+                '}';
+
+        //return "Category{id=\{id}, type='\{type}\{'\''}, name='\{name}\{'\''}\{'}'}";
     }
 }

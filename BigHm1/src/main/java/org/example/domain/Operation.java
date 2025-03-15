@@ -42,7 +42,7 @@ public class Operation {
         if (amount < 0) throw new InvalidArgumentException("Amount can't be negative");
         OperationType operationType = OperationType.fromString(type);
         if (operationType == null) {
-            throw new InvalidArgumentException(STR."Invalid operation type: \{type}");
+            throw new InvalidArgumentException("Invalid operation type: " + type);
         }
 
         String id = UUID.randomUUID().toString();
@@ -57,7 +57,7 @@ public class Operation {
         if (amount < 0) throw new InvalidArgumentException("Amount can't be negative");
         OperationType operationType = OperationType.fromString(type);
         if (operationType == null) {
-            throw new InvalidArgumentException(STR."Invalid operation type: \{type}");
+            throw new InvalidArgumentException("Invalid operation type: " + type);
         }
 
         return new Operation(id, operationType, bankAccountId, amount, date, description, categoryId);
@@ -65,6 +65,15 @@ public class Operation {
 
     @Override
     public String toString() {
-        return STR."Operation{id=\{id}, type='\{type}\{'\''}, bankAccountId=\{bankAccountId}, amount=\{amount}, date=\{date}, description='\{description}\{'\''}, categoryId=\{categoryId}\{'}'}";
+        return "Operation{" +
+                "id='" + id + '\'' +
+                ", type=" + type +
+                ", bankAccountId='" + bankAccountId + '\'' +
+                ", amount=" + amount + '\'' +
+                ", date=" + date + '\'' +
+                ", description='" + description + '\'' +
+                ", categoryId='" + categoryId + '\'' +
+                '}';
+        //return "Operation{id=\{id}, type='\{type}\{'\''}, bankAccountId=\{bankAccountId}, amount=\{amount}, date=\{date}, description='\{description}\{'\''}, categoryId=\{categoryId}\{'}'}";
     }
 }

@@ -42,6 +42,10 @@ public class BankAccount {
 
     @Override
     public String toString() {
-        return STR."BankAccount{id=\{id}, name='\{name}\{'\''}, balance=\{balance}\{'}'}";
+        return "BankAccount{" +
+                "id='" + id + '\'' +
+                ", name='" + name + '\'' +
+                ", balance=" + balance +
+                '}';
     }
 }
