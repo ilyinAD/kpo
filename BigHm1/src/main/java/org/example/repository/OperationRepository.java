@@ -6,6 +6,8 @@ import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
+
 @Component
 public class OperationRepository {
     List<Operation> operations = new ArrayList<Operation>();
@@ -18,7 +20,7 @@ public class OperationRepository {
         return operations;
     }
 
-    public void delete(int id) {
-        operations.removeIf(operation -> operation.getId() == id);
+    public void delete(String id) {
+        operations.removeIf(operation -> Objects.equals(operation.getId(), id));
     }
 }

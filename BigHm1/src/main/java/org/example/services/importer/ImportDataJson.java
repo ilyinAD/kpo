@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+import java.util.Collections;
 import java.util.List;
 @Service
 public class ImportDataJson extends ImportData {
@@ -21,6 +22,10 @@ public class ImportDataJson extends ImportData {
 
     @Override
     public <T> List<T> parseData(String data, Class<T> type) throws IOException {
+        if (data == null || data.isEmpty()) {
+            return Collections.emptyList();
+        }
+
         CollectionType listType = objectMapper.getTypeFactory().constructCollectionType(List.class, type);
         return objectMapper.readValue(
                 data,

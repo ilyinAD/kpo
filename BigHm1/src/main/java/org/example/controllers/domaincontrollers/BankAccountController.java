@@ -1,19 +1,20 @@
-package org.example.controllers;
+package org.example.controllers.domaincontrollers;
 
 import org.example.domain.BankAccount;
+import org.example.exceptions.InvalidArgumentException;
 import org.example.services.domainservices.BankAccountService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
 @Controller
-public class BankAccountController {
+class BankAccountController {
     private final BankAccountService bankAccountService;
     @Autowired
     public BankAccountController(BankAccountService bankAccountService) {
         this.bankAccountService = bankAccountService;
     }
 
-    public void addAccount(BankAccount account) {
+    public void addAccount(BankAccount account) throws InvalidArgumentException {
         bankAccountService.add(account);
     }
     public void printAllAccounts() {

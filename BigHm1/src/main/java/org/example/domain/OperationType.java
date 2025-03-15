@@ -1,5 +1,7 @@
 package org.example.domain;
 
+import com.fasterxml.jackson.annotation.JsonValue;
+
 public enum OperationType {
     INCOME("доход"),
     EXPENSE("расход");
@@ -8,7 +10,7 @@ public enum OperationType {
     OperationType(String title) {
         this.title = title;
     }
-
+    @JsonValue
     public String getTitle() {
         return title;
     }

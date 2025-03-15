@@ -1,16 +1,11 @@
 package org.example.builders;
 
 import org.example.domain.Category;
+import org.example.exceptions.InvalidArgumentException;
 
 public class CategoryBuilder {
-    private int id;
     private String type;
     private String name;
-
-    public CategoryBuilder setId(int id) {
-        this.id = id;
-        return this;
-    }
 
     public CategoryBuilder setType(String type) {
         this.type = type;
@@ -22,7 +17,7 @@ public class CategoryBuilder {
         return this;
     }
 
-    public Category build() {
-        return Category.create(id, name, type);
+    public Category build() throws InvalidArgumentException {
+        return Category.create(type, name);
     }
 }

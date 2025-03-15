@@ -3,17 +3,18 @@ package org.example.domain;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
+import org.example.exceptions.InvalidArgumentException;
 
 import java.util.Date;
 import java.util.UUID;
 
 @Getter
 public class Operation {
-    private final int id;
+    private final String id;
 
     private final OperationType type;
 
-    private final int bankAccountId;
+    private final String bankAccountId;
 
     private final double amount;
 
@@ -21,9 +22,9 @@ public class Operation {
 
     private final String description;
 
-    private final int categoryId;
+    private final String categoryId;
 
-    private Operation(int id, OperationType type, int bankAccountId, double amount, Date date, String description, int categoryId) {
+    private Operation(String id, OperationType type, String bankAccountId, double amount, Date date, String description, String categoryId) {
         if (amount < 0) throw new IllegalArgumentException("Amount can't be negative");
 
         this.id = id;
@@ -35,14 +36,28 @@ public class Operation {
         this.categoryId = categoryId;
     }
 
-    @JsonCreator
-    public static Operation create(@JsonProperty("id") int id, @JsonProperty("type") String type, @JsonProperty("bankAccountId") int bankAccountId,
-                                   @JsonProperty("amount") double amount, @JsonProperty("date") Date date, @JsonProperty("description") String description,
-                                   @JsonProperty("categoryId") int categoryId) {
-        if (amount < 0) throw new IllegalArgumentException("Amount can't be negative");
+    public static Operation create(String type, String bankAccountId,
+                                   double amount, Date date, String description,
+                                   String categoryId) throws InvalidArgumentException {
+        if (amount < 0) throw new InvalidArgumentException("Amount can't be negative");
         OperationType operationType = OperationType.fromString(type);
         if (operationType == null) {
-            throw new IllegalArgumentException("Invalid operation type: " + type);
+            throw new InvalidArgumentException(STR."Invalid operation type: \{type}");
+        }
+
+        String id = UUID.randomUUID().toString();
+
+        return new Operation(id, operationType, bankAccountId, amount, date, description, categoryId);
+    }
+
+    @JsonCreator
+    public static Operation create(@JsonProperty("id") String id, @JsonProperty("type") String type, @JsonProperty("bankAccountId") String bankAccountId,
+                                   @JsonProperty("amount") double amount, @JsonProperty("date") Date date, @JsonProperty("description") String description,
+                                   @JsonProperty("categoryId") String categoryId) throws InvalidArgumentException {
+        if (amount < 0) throw new InvalidArgumentException("Amount can't be negative");
+        OperationType operationType = OperationType.fromString(type);
+        if (operationType == null) {
+            throw new InvalidArgumentException(STR."Invalid operation type: \{type}");
         }
 
         return new Operation(id, operationType, bankAccountId, amount, date, description, categoryId);

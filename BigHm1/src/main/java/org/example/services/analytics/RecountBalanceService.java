@@ -11,21 +11,22 @@ import java.util.List;
 import java.util.Map;
 import java.util.HashMap;
 
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Service
-public class RecountBalanceService implements AnalyticCommandInterface<Map<Integer, Double>> {
+public class RecountBalanceService implements AnalyticCommandInterface<Map<String, Double>> {
     private final BankFacade bankFacade;
     @Autowired
     public RecountBalanceService(BankFacade bankFacade) {
         this.bankFacade = bankFacade;
     }
 
-    private double GetBalanceByID(int id) {
+    private double GetBalanceByID(String id) {
         List<Operation> operations = bankFacade.getOperationService().getAllOperations();
         double ans = 0;
         for (Operation operation : operations) {
-            if (operation.getId() != id) {
+            if (!Objects.equals(operation.getBankAccountId(), id)) {
                 continue;
             }
 
@@ -40,12 +41,12 @@ public class RecountBalanceService implements AnalyticCommandInterface<Map<Integ
     }
 
     @Override
-    public Map<Integer, Double> execute(Object... parameters) {
-        List<Integer> ids = bankFacade.getBankAccountService().getAllAccounts().stream().map(BankAccount::getId)
+    public Map<String, Double> execute(Object... parameters) {
+        List<String> ids = bankFacade.getBankAccountService().getAllAccounts().stream().map(BankAccount::getId)
                 .toList();
-        Map<Integer, Double> res = new HashMap<Integer, Double>();
+        Map<String, Double> res = new HashMap<String, Double>();
         
-        for (Integer id : ids) {
+        for (String id : ids) {
             res.put(id, GetBalanceByID(id));
         }
         

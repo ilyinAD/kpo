@@ -1,3 +1,2 @@
 amount,bankAccountId,categoryId,date,description,id,type
-10.0,1,2,1767225600000,"оплата труда",1,EXPENSE
-120.0,2,1,1602277200000,хз,131,INCOME
+100.0,"9761159b-21d2-4c9c-95f5-7ca0c8c7dbbb","2a76a5af-cb88-41d3-bb34-b03c9e40167e",1733950800000,"опа поднял дэнег","53297815-7c6f-4a76-9796-777fea4ad56b",доход

@@ -5,6 +5,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 
 @Component
@@ -17,7 +18,7 @@ public class BankAccountRepository {
     public List<BankAccount> findAll() {
         return accounts;
     }
-    public void delete(int id) {
-        accounts.removeIf(account -> account.getId() == id);
+    public void delete(String id) {
+        accounts.removeIf(account -> Objects.equals(account.getId(), id));
     }
 }

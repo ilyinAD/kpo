@@ -1,6 +1,8 @@
 package org.example.builders;
 
+import org.example.constants.Constants;
 import org.example.domain.Operation;
+import org.example.exceptions.InvalidArgumentException;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -8,25 +10,19 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class OperationBuilder {
-    private int id;
     private String type;
-    private int bankAccountId;
+    private String bankAccountId;
     private double amount;
     private Date date;
     private String description = "Нет описания";  // значение по умолчанию
-    private int categoryId;
-
-    public OperationBuilder setId(int id) {
-        this.id = id;
-        return this;
-    }
+    private String categoryId;
 
     public OperationBuilder setType(String type) {
         this.type = type;
         return this;
     }
 
-    public OperationBuilder setBankAccountId(int bankAccountId) {
+    public OperationBuilder setBankAccountId(String bankAccountId) {
         this.bankAccountId = bankAccountId;
         return this;
     }
@@ -37,8 +33,7 @@ public class OperationBuilder {
     }
 
     public OperationBuilder setDate(String date) throws ParseException {
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        this.date = sdf.parse(date);
+        this.date = Constants.DateFormat.parse(date);
 
         return this;
     }
@@ -48,12 +43,12 @@ public class OperationBuilder {
         return this;
     }
 
-    public OperationBuilder setCategoryId(int categoryId) {
+    public OperationBuilder setCategoryId(String categoryId) {
         this.categoryId = categoryId;
         return this;
     }
 
-    public Operation build() {
-        return Operation.create(id, type, bankAccountId, amount, date, description, categoryId);
+    public Operation build() throws InvalidArgumentException {
+        return Operation.create(type, bankAccountId, amount, date, description, categoryId);
     }
 }

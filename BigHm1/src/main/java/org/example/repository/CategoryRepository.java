@@ -1,8 +1,7 @@
 package org.example.repository;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Locale;
+import java.util.*;
+
 import org.example.domain.Category;
 import org.springframework.stereotype.Component;
 
@@ -18,7 +17,15 @@ public class CategoryRepository {
         return categories;
     }
 
-    public void delete(int id) {
-        categories.removeIf(category -> category.getId() == id);
+    public Category findById(String id) {
+        Optional<Category> category = categories.stream()
+                .filter(user -> user.getId() == id)
+                .findFirst();
+
+        return category.orElse(null);
+    }
+
+    public void delete(String id) {
+        categories.removeIf(category -> Objects.equals(category.getId(), id));
     }
 }

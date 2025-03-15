@@ -2,6 +2,7 @@ package org.example.services.analytics;
 
 import org.example.domain.Operation;
 import org.example.domain.OperationType;
+import org.example.services.domainservices.BankFacade;
 import org.example.services.domainservices.OperationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -10,17 +11,17 @@ import java.util.Date;
 import java.util.List;
 @Service
 public class DifferenceCounterCommand implements AnalyticCommandInterface<Double>{
-    OperationService operationService;
+    BankFacade bankFacade;
     private Date startDate = new Date();
     private Date endDate = new Date();
     @Autowired
-    public DifferenceCounterCommand(OperationService operationService) {
-        this.operationService = operationService;
+    public DifferenceCounterCommand(BankFacade bankFacade) {
+        this.bankFacade = bankFacade;
     }
     @Override
     public Double execute(Object... parameters) throws IllegalArgumentException{
         setParameters(parameters);
-        List<Operation> operations = operationService.getAllOperations();
+        List<Operation> operations = bankFacade.getOperationService().getAllOperations();
         double res = 0;
         for (Operation operation : operations) {
             if (operation.getDate().after(startDate) && operation.getDate().before(endDate)) {

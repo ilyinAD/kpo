@@ -36,7 +36,7 @@ public class AnalyticController {
     }
 
     public void RecountBalance() {
-        Map<Integer, Double> a = analyticFacade.getRecountBalanceService(true).execute();
+        Map<String, Double> a = analyticFacade.getRecountBalanceService(true).execute();
 
         System.out.println("Пересчетанные балансы для каждого счета");
         System.out.println(a);

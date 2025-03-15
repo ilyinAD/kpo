@@ -1,6 +1,7 @@
 package org.example.services.domainservices;
 
 import org.example.domain.Category;
+import org.example.exceptions.InvalidArgumentException;
 import org.example.interfaces.SaveServiceInterface;
 import org.example.repository.CategoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,9 +21,34 @@ public class CategoryService implements SaveServiceInterface<Category> {
         categories.forEach(categoryRepository::save);
     }
 
-    public void add(Category category) {
+    public void add(Category category) throws InvalidArgumentException {
+        boolean isNotUnique = categoryRepository.findAll().stream()
+                .anyMatch(repAccount -> repAccount.getName().equals(category.getName()));
+        if (isNotUnique) {
+            throw new InvalidArgumentException("Account with this name already exists");
+        }
+
         categoryRepository.save(category);
     }
+
+    public Category getById(String id) throws InvalidArgumentException {
+        Category category = categoryRepository.findById(id);
+        if (category == null) {
+            throw new InvalidArgumentException("Account with this id does not exist");
+        }
+
+        return category;
+    }
+
+    public String getIdByName(String name) throws InvalidArgumentException {
+        Category category = categoryRepository.findAll()
+               .stream()
+               .filter(repAccount -> repAccount.getName().equals(name))
+               .findFirst()
+               .orElseThrow(() -> new InvalidArgumentException("Account with this name does not exist"));
+        return category.getId();
+    }
+
     public List<Category> getAllCategories() {
         return categoryRepository.findAll();
     }

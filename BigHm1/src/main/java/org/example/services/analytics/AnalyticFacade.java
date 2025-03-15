@@ -38,7 +38,7 @@ public class AnalyticFacade {
         return groupByCategoryCommand;
     }
 
-    public AnalyticCommandInterface<Map<Integer, Double>> getRecountBalanceService(Boolean withTime) {
+    public AnalyticCommandInterface<Map<String, Double>> getRecountBalanceService(Boolean withTime) {
         if (withTime) {
             return new TimeCounterCommand<>(recountBalanceService);
         }

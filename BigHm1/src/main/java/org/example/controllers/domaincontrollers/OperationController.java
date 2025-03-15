@@ -1,4 +1,4 @@
-package org.example.controllers;
+package org.example.controllers.domaincontrollers;
 
 import org.example.domain.Operation;
 import org.example.services.domainservices.OperationService;

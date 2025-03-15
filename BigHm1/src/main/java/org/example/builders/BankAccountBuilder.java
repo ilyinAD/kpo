@@ -3,14 +3,8 @@ package org.example.builders;
 import org.example.domain.BankAccount;
 
 public class BankAccountBuilder {
-    private int id;
     private String name;
     private double balance;
-
-    public BankAccountBuilder setId(int id) {
-        this.id = id;
-        return this;
-    }
 
     public BankAccountBuilder setName(String name) {
         this.name = name;
@@ -23,6 +17,6 @@ public class BankAccountBuilder {
     }
 
     public BankAccount build() {
-        return BankAccount.create(id, name, balance);
+        return BankAccount.create(name, balance);
     }
 }

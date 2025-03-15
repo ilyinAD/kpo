@@ -1,3 +1,2 @@
-id,name,type
-1,работа,INCOME
-2,развлечения,EXPENSE
+name,type,id
+работа,доход,"2a76a5af-cb88-41d3-bb34-b03c9e40167e"

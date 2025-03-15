@@ -1,6 +1,7 @@
-package org.example.controllers;
+package org.example.controllers.domaincontrollers;
 
 import org.example.domain.Category;
+import org.example.exceptions.InvalidArgumentException;
 import org.example.services.domainservices.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -12,7 +13,7 @@ public class CategoryController {
     public CategoryController(CategoryService categoryService) {
         this.categoryService = categoryService;
     }
-    public void addCategory(Category category) {
+    public void addCategory(Category category) throws InvalidArgumentException {
         categoryService.add(category);
     }
     public void printAllCategories() {
