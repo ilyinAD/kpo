@@ -4,7 +4,6 @@ import org.example.builders.BankAccountBuilder;
 import org.example.builders.CategoryBuilder;
 import org.example.builders.OperationBuilder;
 import org.example.constants.Constants;
-import org.example.controllers.domaincontrollers.DomainFacadeController;
 import org.example.domain.Category;
 import org.example.exceptions.InvalidArgumentException;
 import org.example.services.exporter.ExportDataService;
@@ -106,10 +105,19 @@ public class TerminalController {
                     displayData();
                     break;
                 case 5:
-                    analyticController.RecountBalance();
+                    try {
+                        analyticController.RecountBalance();
+                    } catch (InvalidArgumentException e) {
+                        System.out.println("Ошибка пересчета баланса: " + e.getMessage());
+                    }
                     break;
                 case 6:
-                    analyticController.GroupByCategory();
+                    try {
+                        analyticController.GroupByCategory();
+                    } catch (InvalidArgumentException e) {
+                        System.out.println("Ошибка группировки по категориям: " + e.getMessage());
+                    }
+
                     break;
                 case 7:
                     countDifference();
@@ -186,7 +194,7 @@ public class TerminalController {
 
         builder = builder.setCategoryId(id);
 
-        Category category = domainFacadeController.getBankFacade().getCategoryService().getById(id);
+        Category category = domainFacadeController.getBankFacade().getCategoryService().findById(id);
 
         builder.setType(category.getType().toString());
 

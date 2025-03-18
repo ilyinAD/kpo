@@ -1,10 +1,6 @@
-package org.example.controllers.domaincontrollers;
+package org.example.controllers;
 
 import lombok.Getter;
-import org.example.controllers.AnalyticController;
-import org.example.controllers.domaincontrollers.BankAccountController;
-import org.example.controllers.domaincontrollers.CategoryController;
-import org.example.controllers.domaincontrollers.OperationController;
 import org.example.services.domainservices.BankFacade;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;

@@ -1,7 +1,6 @@
 package org.example.services.analytics;
 
 import org.example.domain.BankAccount;
-import org.example.domain.Category;
 import org.example.domain.Operation;
 import org.example.domain.OperationType;
 import org.example.services.domainservices.BankFacade;
@@ -12,13 +11,12 @@ import java.util.Map;
 import java.util.HashMap;
 
 import java.util.Objects;
-import java.util.stream.Collectors;
 
 @Service
-public class RecountBalanceService implements AnalyticCommandInterface<Map<String, Double>> {
+public class RecountBalanceCommand implements AnalyticCommandInterface<Map<String, Double>> {
     private final BankFacade bankFacade;
     @Autowired
-    public RecountBalanceService(BankFacade bankFacade) {
+    public RecountBalanceCommand(BankFacade bankFacade) {
         this.bankFacade = bankFacade;
     }
 

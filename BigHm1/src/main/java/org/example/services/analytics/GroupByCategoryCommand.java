@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.apache.commons.lang3.tuple.Pair;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -23,29 +24,17 @@ public class GroupByCategoryCommand implements AnalyticCommandInterface<Pair<Map
     @Override
     public Pair<Map<String, Double>, Map<String, Double>> execute(Object... parameters) {
         List<Operation> operations = bankFacade.getOperationService().getAllOperations();
-        List<Category> categories = bankFacade.getCategoryService().getAllCategories();
 
-        Map<String, Double> expenses = operations.stream()
-                .filter(op -> op.getType().equals(OperationType.EXPENSE))
-                .collect(Collectors.groupingBy(
-                        op -> categories.stream()
-                                .filter(cat -> cat.getId() == op.getCategoryId())
-                                .findFirst()
-                                .map(Category::getName)
-                                .orElse("unknown category"),
-                        Collectors.summingDouble(Operation::getAmount)
-                ));
+        Map<String, Double> expenses = new HashMap<String, Double>();
+        Map<String, Double> incomes = new HashMap<String, Double>();
 
-        Map<String, Double> incomes = operations.stream()
-                .filter(op -> op.getType().equals(OperationType.INCOME))
-                .collect(Collectors.groupingBy(
-                        op -> categories.stream()
-                                .filter(cat -> cat.getId() == op.getCategoryId())
-                                .findFirst()
-                                .map(Category::getName)
-                                .orElse("unknown category"),
-                        Collectors.summingDouble(Operation::getAmount)
-                ));
+        for (Operation operation : operations) {
+            if (operation.getType().equals(OperationType.INCOME)) {
+                incomes.put(operation.getCategoryId(), incomes.getOrDefault(operation.getCategoryId(), 0.0) + operation.getAmount());
+            } else {
+                expenses.put(operation.getCategoryId(), expenses.getOrDefault(operation.getCategoryId(), 0.0) + operation.getAmount());
+            }
+        }
 
         return Pair.of(expenses, incomes);
     }

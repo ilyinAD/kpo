@@ -31,13 +31,8 @@ public class CategoryService implements SaveServiceInterface<Category> {
         categoryRepository.save(category);
     }
 
-    public Category getById(String id) throws InvalidArgumentException {
-        Category category = categoryRepository.findById(id);
-        if (category == null) {
-            throw new InvalidArgumentException("Account with this id does not exist");
-        }
-
-        return category;
+    public Category findById(String id) throws InvalidArgumentException {
+        return categoryRepository.findById(id);
     }
 
     public String getIdByName(String name) throws InvalidArgumentException {

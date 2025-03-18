@@ -2,6 +2,7 @@ package org.example.builders;
 
 import org.example.constants.Constants;
 import org.example.domain.Operation;
+import org.example.domain.OperationFactory;
 import org.example.exceptions.InvalidArgumentException;
 
 import java.text.ParseException;
@@ -49,6 +50,6 @@ public class OperationBuilder {
     }
 
     public Operation build() throws InvalidArgumentException {
-        return Operation.create(type, bankAccountId, amount, date, description, categoryId);
+        return OperationFactory.create(type, bankAccountId, amount, date, description, categoryId);
     }
 }

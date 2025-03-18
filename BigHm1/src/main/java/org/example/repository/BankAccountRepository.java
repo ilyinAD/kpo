@@ -1,12 +1,12 @@
 package org.example.repository;
 
 import org.example.domain.BankAccount;
+import org.example.exceptions.InvalidArgumentException;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-import java.util.UUID;
 
 @Component
 public class BankAccountRepository {
@@ -20,5 +20,14 @@ public class BankAccountRepository {
     }
     public void delete(String id) {
         accounts.removeIf(account -> Objects.equals(account.getId(), id));
+    }
+    public BankAccount findById(String id) throws InvalidArgumentException {
+        for (BankAccount account : accounts) {
+            if (account.getId().equals(id)) {
+                return account;
+            }
+        }
+
+        throw new InvalidArgumentException("BankAccount with id " + id + " does not exist");
     }
 }

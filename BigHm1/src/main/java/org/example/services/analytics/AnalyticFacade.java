@@ -2,7 +2,6 @@ package org.example.services.analytics;
 
 import lombok.Getter;
 import org.apache.commons.lang3.tuple.Pair;
-import org.example.controllers.AnalyticController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,13 +12,13 @@ import java.util.Map;
 public class AnalyticFacade {
     private final DifferenceCounterCommand differenceCounterCommand;
     private final GroupByCategoryCommand groupByCategoryCommand;
-    private final RecountBalanceService recountBalanceService;
+    private final RecountBalanceCommand recountBalanceCommand;
 
     @Autowired
-    public AnalyticFacade(DifferenceCounterCommand differenceCounterCommand, GroupByCategoryCommand groupByCategoryCommand, RecountBalanceService recountBalanceService) {
+    public AnalyticFacade(DifferenceCounterCommand differenceCounterCommand, GroupByCategoryCommand groupByCategoryCommand, RecountBalanceCommand recountBalanceCommand) {
         this.differenceCounterCommand = differenceCounterCommand;
         this.groupByCategoryCommand = groupByCategoryCommand;
-        this.recountBalanceService = recountBalanceService;
+        this.recountBalanceCommand = recountBalanceCommand;
     }
 
     public AnalyticCommandInterface<Double> getDifferenceCounterCommand(Boolean withTime) {
@@ -40,10 +39,9 @@ public class AnalyticFacade {
 
     public AnalyticCommandInterface<Map<String, Double>> getRecountBalanceService(Boolean withTime) {
         if (withTime) {
-            return new TimeCounterCommand<>(recountBalanceService);
+            return new TimeCounterCommand<>(recountBalanceCommand);
         }
 
-        return recountBalanceService;
+        return recountBalanceCommand;
     }
-
 }

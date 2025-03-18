@@ -7,9 +7,11 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.util.UUID;
+import java.util.logging.Logger;
 
 @Getter
 public class BankAccount {
+    private static final Logger logger = Logger.getLogger(BankAccount.class.getName());
     private String id;
 
     private String name;
@@ -17,22 +19,22 @@ public class BankAccount {
     private double balance;
 
     BankAccount(String id, String name, double balance) {
-        System.out.println("private constructor");
+        logger.info("private constructor bankaccount");
         this.id = id;
         this.name = name;
         this.balance = balance;
     }
-    public static BankAccount create(String name, double balance) {
-        System.out.println("static create");
-        String id = UUID.randomUUID().toString();
-        return new BankAccount(id, name, balance);
-    }
+//    private static BankAccount create(String name, double balance) {
+//        System.out.println("static create");
+//        String id = UUID.randomUUID().toString();
+//        return new BankAccount(id, name, balance);
+//    }
 
     @JsonCreator
-    public static BankAccount create(@JsonProperty("id") String id, @JsonProperty("name") String name, @JsonProperty("balance") double balance) {
-        System.out.println("static create");
+    private static BankAccount create(@JsonProperty("id") String id, @JsonProperty("name") String name, @JsonProperty("balance") double balance) {
+        logger.info("jackson static create bankaccount");
 
-        return new BankAccount(id, name, balance);
+        return BankAccountFactory.create(id, name, balance);
     }
 
 //    public static BankAccount create(int id, String name, double balance) {

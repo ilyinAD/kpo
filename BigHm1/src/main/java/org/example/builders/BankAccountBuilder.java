@@ -1,6 +1,7 @@
 package org.example.builders;
 
 import org.example.domain.BankAccount;
+import org.example.domain.BankAccountFactory;
 
 public class BankAccountBuilder {
     private String name;
@@ -17,6 +18,6 @@ public class BankAccountBuilder {
     }
 
     public BankAccount build() {
-        return BankAccount.create(name, balance);
+        return BankAccountFactory.create(name, balance);
     }
 }

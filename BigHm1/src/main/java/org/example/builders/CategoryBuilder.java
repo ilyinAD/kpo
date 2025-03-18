@@ -1,6 +1,7 @@
 package org.example.builders;
 
 import org.example.domain.Category;
+import org.example.domain.CategoryFactory;
 import org.example.exceptions.InvalidArgumentException;
 
 public class CategoryBuilder {
@@ -18,6 +19,6 @@ public class CategoryBuilder {
     }
 
     public Category build() throws InvalidArgumentException {
-        return Category.create(type, name);
+        return CategoryFactory.create(type, name);
     }
 }

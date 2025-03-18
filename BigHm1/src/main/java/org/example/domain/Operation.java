@@ -7,9 +7,11 @@ import org.example.exceptions.InvalidArgumentException;
 
 import java.util.Date;
 import java.util.UUID;
+import java.util.logging.Logger;
 
 @Getter
 public class Operation {
+    private static final Logger logger = Logger.getLogger(Operation.class.getName());
     private final String id;
 
     private final OperationType type;
@@ -24,7 +26,8 @@ public class Operation {
 
     private final String categoryId;
 
-    private Operation(String id, OperationType type, String bankAccountId, double amount, Date date, String description, String categoryId) {
+    Operation(String id, OperationType type, String bankAccountId, double amount, Date date, String description, String categoryId) {
+        logger.info("private constructor operation");
         if (amount < 0) throw new IllegalArgumentException("Amount can't be negative");
 
         this.id = id;
@@ -36,31 +39,26 @@ public class Operation {
         this.categoryId = categoryId;
     }
 
-    public static Operation create(String type, String bankAccountId,
-                                   double amount, Date date, String description,
-                                   String categoryId) throws InvalidArgumentException {
-        if (amount < 0) throw new InvalidArgumentException("Amount can't be negative");
-        OperationType operationType = OperationType.fromString(type);
-        if (operationType == null) {
-            throw new InvalidArgumentException("Invalid operation type: " + type);
-        }
-
-        String id = UUID.randomUUID().toString();
-
-        return new Operation(id, operationType, bankAccountId, amount, date, description, categoryId);
-    }
+//    private static Operation create(String type, String bankAccountId,
+//                                   double amount, Date date, String description,
+//                                   String categoryId) throws InvalidArgumentException {
+//        if (amount < 0) throw new InvalidArgumentException("Amount can't be negative");
+//        OperationType operationType = OperationType.fromString(type);
+//        if (operationType == null) {
+//            throw new InvalidArgumentException("Invalid operation type: " + type);
+//        }
+//
+//        String id = UUID.randomUUID().toString();
+//
+//        return new Operation(id, operationType, bankAccountId, amount, date, description, categoryId);
+//    }
 
     @JsonCreator
     public static Operation create(@JsonProperty("id") String id, @JsonProperty("type") String type, @JsonProperty("bankAccountId") String bankAccountId,
                                    @JsonProperty("amount") double amount, @JsonProperty("date") Date date, @JsonProperty("description") String description,
                                    @JsonProperty("categoryId") String categoryId) throws InvalidArgumentException {
-        if (amount < 0) throw new InvalidArgumentException("Amount can't be negative");
-        OperationType operationType = OperationType.fromString(type);
-        if (operationType == null) {
-            throw new InvalidArgumentException("Invalid operation type: " + type);
-        }
-
-        return new Operation(id, operationType, bankAccountId, amount, date, description, categoryId);
+        logger.info("jackson create operation");
+        return OperationFactory.create(id, type, bankAccountId, amount, date, description, categoryId);
     }
 
     @Override

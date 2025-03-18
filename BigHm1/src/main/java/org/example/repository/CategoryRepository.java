@@ -2,7 +2,9 @@ package org.example.repository;
 
 import java.util.*;
 
+import org.example.domain.BankAccount;
 import org.example.domain.Category;
+import org.example.exceptions.InvalidArgumentException;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -17,12 +19,15 @@ public class CategoryRepository {
         return categories;
     }
 
-    public Category findById(String id) {
-        Optional<Category> category = categories.stream()
-                .filter(user -> user.getId() == id)
-                .findFirst();
+    public Category findById(String id) throws InvalidArgumentException {
+        for (Category category : categories) {
+            if (category.getId().equals(id)) {
+                return category;
+            }
+        }
 
-        return category.orElse(null);
+        throw new InvalidArgumentException("Category with id " + id + " does not exist");
+
     }
 
     public void delete(String id) {

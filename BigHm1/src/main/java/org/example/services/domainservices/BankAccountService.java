@@ -30,7 +30,9 @@ public class BankAccountService implements SaveServiceInterface<BankAccount> {
         }
         repository.save(account);
     }
-
+    public BankAccount findById(String id) throws InvalidArgumentException {
+        return repository.findById(id);
+    }
     public String getIdByName(String name) throws InvalidArgumentException {
         BankAccount account = repository.findAll().stream()
                .filter(repAccount -> repAccount.getName().equals(name))
