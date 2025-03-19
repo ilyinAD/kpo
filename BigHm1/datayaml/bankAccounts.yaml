@@ -1,6 +1,10 @@
-- id: 1
-  name: YA
-  balance: 9.2
-- id: 2
-  name: YB
-  balance: 12.4
+---
+- id: "9761159b-21d2-4c9c-95f5-7ca0c8c7dbbb"
+  name: "артем"
+  balance: 120.0
+- id: "63121fa7-a09a-40d9-9bd5-df5fc0ab0271"
+  name: "макс"
+  balance: 1000.0
+- id: "a691f4e5-a813-4a4d-84cb-f65255fd2d77"
+  name: "макс1"
+  balance: 1000.0

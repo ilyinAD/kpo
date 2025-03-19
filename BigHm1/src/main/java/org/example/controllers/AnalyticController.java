@@ -22,13 +22,13 @@ public class AnalyticController {
         this.bankFacade = bankFacade;
     }
 
-    public void CountDifference(Date startDate, Date endDate) throws Exception {
+    public void CountDifference(Date startDate, Date endDate) throws InvalidArgumentException {
         try {
             Double a = analyticFacade.getDifferenceCounterCommand(true).execute(startDate, endDate);
             System.out.println("Посчитанная разница для стартовой даты " + startDate + " и конечной даты " + endDate);
             System.out.println(a);
         } catch (IllegalArgumentException e) {
-            throw new Exception(e.getMessage());
+            throw new InvalidArgumentException(e.getMessage());
         }
     }
 
@@ -36,9 +36,19 @@ public class AnalyticController {
         Pair<Map<String, Double>, Map<String, Double>> mapPair = analyticFacade.getGroupByCategoryCommand(true).execute();
 
         System.out.println("Сгруппированные данные: доходы");
+        int a = 0;
         for (Map.Entry<String, Double> entry : mapPair.getRight().entrySet()) {
             System.out.println("Категория " +  bankFacade.getCategoryService().findById(entry.getKey()).getName() + ": " + entry.getValue());
+            ++a;
         }
+
+        System.out.println("Сгруппированные данные: расходы");
+        for (Map.Entry<String, Double> entry : mapPair.getLeft().entrySet()) {
+            System.out.println("Категория " +  bankFacade.getCategoryService().findById(entry.getKey()).getName() + ": " + entry.getValue());
+            ++a;
+        }
+
+        System.out.println("Количество категорий доходов: " + a);
     }
 
     public void RecountBalance() throws InvalidArgumentException {

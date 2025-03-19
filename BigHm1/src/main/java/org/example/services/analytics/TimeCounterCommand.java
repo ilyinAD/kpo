@@ -11,7 +11,7 @@ public class TimeCounterCommand<T> implements AnalyticCommandInterface<T>{
 
 
     @Override
-    public T execute(Object... parameters) {
+    public T execute(Object... parameters){
         long start = System.nanoTime();
         T result = command.execute(parameters);
         long end = System.nanoTime();

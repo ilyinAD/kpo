@@ -24,7 +24,9 @@ public class DifferenceCounterCommand implements AnalyticCommandInterface<Double
         List<Operation> operations = bankFacade.getOperationService().getAllOperations();
         double res = 0;
         for (Operation operation : operations) {
+            System.out.println("in for");
             if (operation.getDate().after(startDate) && operation.getDate().before(endDate)) {
+                System.out.println("in if");
                 if (operation.getType() == OperationType.INCOME) {
                     res += operation.getAmount();
                 } else {
@@ -32,7 +34,8 @@ public class DifferenceCounterCommand implements AnalyticCommandInterface<Double
                 }
             }
         }
-
+        System.out.println("out for");
+        System.out.println(res);
         return res;
     }
     private void setParameters(Object... parameters) throws IllegalArgumentException {

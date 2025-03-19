@@ -2,6 +2,7 @@ package org.example.repository;
 
 import org.example.builders.BankAccountBuilder;
 import org.example.domain.BankAccount;
+import org.example.domain.BankAccountFactory;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -45,10 +46,7 @@ public class BankAccountRepositoryTest {
 
     @Test
     void deleteAccountTest() {
-        BankAccount account = new BankAccountBuilder()
-                .setName("artem")
-                .setBalance(1000)
-                .build();
+        BankAccount account = BankAccountFactory.create("artem", 1000);
         bankAccountRepository.save(account);
         bankAccountRepository.delete(account.getId());
 

@@ -17,14 +17,12 @@ import java.util.InputMismatchException;
 import java.util.Scanner;
 @Controller
 public class TerminalController {
-    Scanner scanner;
     private final DomainFacadeController domainFacadeController;
     private final AnalyticController analyticController;
     private final ImportDataCsv importData;
     private final ExportDataService exportData;
     @Autowired
     TerminalController(DomainFacadeController displayController, ImportDataCsv importData, ExportDataService exportData, AnalyticController analyticController) {
-        this.scanner = new Scanner(System.in);
         this.domainFacadeController = displayController;
         this.importData = importData;
         this.exportData = exportData;
@@ -43,11 +41,68 @@ public class TerminalController {
         System.out.println("0 - Выход");
         System.out.print("Введите номер действия: ");
     }
-    public void start() {
+
+    private String isValidInput(Scanner scanner) {
+        String fileFormat = "";
+        String input = scanner.nextLine();
+        switch (input) {
+            case "json":
+                fileFormat = "json";
+                break;
+            case "csv":
+                fileFormat = "csv";
+                break;
+            case "yaml":
+                fileFormat = "yaml";
+                break;
+            default:
+                System.out.println("Некорректный формат файла. Выберите json или csv или yaml.");
+                break;
+        }
+        return fileFormat;
+    }
+
+    private String getFolderPath(String fileFormat) {
+        switch (fileFormat) {
+            case "json":
+                return Constants.PathToJsonFolder;
+            case "csv":
+                return Constants.PathToCsvFolder;
+            case "yaml":
+                return Constants.PathToYamlFolder;
+        }
+
+        return "";
+    }
+    public void start(Scanner scanner) {
+        boolean validInput = false;
+        String importFileFormat = "";
+        while (!validInput) {
+            validInput = true;
+            System.out.println("Введите формат файла из которого импортировать данные");
+            importFileFormat = isValidInput(scanner);
+            if (importFileFormat.isEmpty()) {
+                validInput = false;
+            }
+        }
+
+        validInput = false;
+        String exportFileFormat = "";
+        while (!validInput) {
+            validInput = true;
+            System.out.println("Введите формат файла в которыый экспортировать данные");
+            exportFileFormat = isValidInput(scanner);
+            if (exportFileFormat.isEmpty()) {
+                validInput = false;
+            }
+        }
+
+        String importFolderPath = getFolderPath(importFileFormat);
+        String exportFolderPath = getFolderPath(exportFileFormat);
 
         try {
             //importData.importData("datajson\\bankAccounts.json", "datajson\\categories.json", "datajson\\operations.json");
-            importData.importData("datacsv\\bankAccounts.csv", "datacsv\\categories.csv", "datacsv\\operations.csv");
+            importData.importData(importFolderPath + "\\bankAccounts." + importFileFormat, importFolderPath + "\\categories." + importFileFormat, importFolderPath + "\\operations." + importFileFormat);
         }
         catch (Exception e) {
             System.out.println("Ошибка импорта данных: " + e.getMessage());
@@ -70,7 +125,7 @@ public class TerminalController {
             switch (choice) {
                 case 1:
                     try {
-                        addBankAccount();
+                        addBankAccount(scanner);
                     } catch (InputMismatchException e) {
                         scanner.nextLine();
                         System.out.println("Ошибка добавления счета: " + e.getMessage());
@@ -81,7 +136,7 @@ public class TerminalController {
                     break;
                 case 2:
                     try {
-                        addCategory();
+                        addCategory(scanner);
                     } catch (InputMismatchException e) {
                         scanner.nextLine();
                         System.out.println("Ошибка добавления категории: " + e.getMessage());
@@ -92,7 +147,7 @@ public class TerminalController {
                     break;
                 case 3:
                     try {
-                        addOperation();
+                        addOperation(scanner);
                     } catch (InputMismatchException e) {
                         scanner.nextLine();
                         System.out.println("Ошибка добавления операции: " + e.getMessage());
@@ -120,7 +175,7 @@ public class TerminalController {
 
                     break;
                 case 7:
-                    countDifference();
+                    countDifference(scanner);
 
                     break;
                 case 0:
@@ -137,13 +192,13 @@ public class TerminalController {
         }
 
         try {
-            exportData.Export("datacsv\\bankAccounts.csv", "datacsv\\categories.csv", "datacsv\\operations.csv", "csv");
+            exportData.Export(exportFolderPath + "\\bankAccounts." + exportFileFormat, exportFolderPath + "\\categories." + exportFileFormat, exportFolderPath + "\\operations." + exportFileFormat, exportFileFormat);
         } catch (Exception e) {
             System.out.println("Ошибка экспорта данных: " + e.getMessage());
         }
     }
 
-    private void addBankAccount() throws InvalidArgumentException {
+    private void addBankAccount(Scanner scanner) throws InvalidArgumentException {
         BankAccountBuilder builder = new BankAccountBuilder();
 
         System.out.print("Введите название счета: ");
@@ -157,7 +212,7 @@ public class TerminalController {
         System.out.println("Счет добавлен!");
     }
 
-    private void addCategory() throws InvalidArgumentException {
+    private void addCategory(Scanner scanner) throws InvalidArgumentException {
         CategoryBuilder builder = new CategoryBuilder();
 
         System.out.print("Введите тип категории (доход/расход): ");
@@ -170,12 +225,14 @@ public class TerminalController {
         System.out.println("Категория добавлена!");
     }
 
-    private void addOperation() throws ParseException, InvalidArgumentException {
-        OperationBuilder builder = new OperationBuilder();
+    private void addOperation(Scanner scanner) throws ParseException, InvalidArgumentException {
+        OperationBuilder builder = new OperationBuilder(domainFacadeController.getBankFacade());
 
         System.out.print("Введите имя банковского счета: ");
-        builder = builder.setBankAccountId(domainFacadeController.getBankFacade().
-                getBankAccountService().getIdByName(scanner.nextLine()));
+        String accountName = scanner.nextLine();
+        builder = builder.setBankAccountName(accountName);
+//        builder = builder.setBankAccountId(domainFacadeController.getBankFacade().
+//                getBankAccountService().getByName(scanner.nextLine()).getId());
 
         System.out.print("Введите сумму: ");
         builder = builder.setAmount(scanner.nextDouble());
@@ -188,15 +245,16 @@ public class TerminalController {
         builder = builder.setDescription(scanner.nextLine());
 
         System.out.print("Введите имя категории: ");
-        String name = scanner.nextLine();
-        String id = domainFacadeController.getBankFacade().
-                getCategoryService().getIdByName(name);
+        String categoryName = scanner.nextLine();
+        builder = builder.setCategoryName(categoryName);
+//        String id = domainFacadeController.getBankFacade().
+//                getCategoryService().getByName(name).getId();
+//
+//        builder = builder.setCategoryId(id);
 
-        builder = builder.setCategoryId(id);
-
-        Category category = domainFacadeController.getBankFacade().getCategoryService().findById(id);
-
-        builder.setType(category.getType().toString());
+//        Category category = domainFacadeController.getBankFacade().getCategoryService().findById(id);
+//
+//        builder.setType(category.getType().toString());
 
         domainFacadeController.getBankFacade().getOperationService().add(builder.build());
         System.out.println("Операция добавлена!");
@@ -206,7 +264,7 @@ public class TerminalController {
         domainFacadeController.displayAll();
     }
 
-    private void countDifference() {
+    private void countDifference(Scanner scanner) {
         Date startDate;
         Date endDate;
         System.out.println("Введите начальную дату в формате YYYY-MM-DD");

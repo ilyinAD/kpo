@@ -18,8 +18,10 @@ public class BankAccountService implements SaveServiceInterface<BankAccount> {
         this.repository = repository;
     }
 
-    public void addList(List<BankAccount> accounts) {
-        accounts.forEach(repository::save);
+    public void addList(List<BankAccount> accounts) throws InvalidArgumentException {
+        for (BankAccount account : accounts) {
+            add(account);
+        }
     }
 
     public void add(BankAccount account) throws InvalidArgumentException {
@@ -33,12 +35,11 @@ public class BankAccountService implements SaveServiceInterface<BankAccount> {
     public BankAccount findById(String id) throws InvalidArgumentException {
         return repository.findById(id);
     }
-    public String getIdByName(String name) throws InvalidArgumentException {
-        BankAccount account = repository.findAll().stream()
+    public BankAccount getByName(String name) throws InvalidArgumentException {
+        return repository.findAll().stream()
                .filter(repAccount -> repAccount.getName().equals(name))
                .findFirst()
                .orElseThrow(() -> new InvalidArgumentException("Account with this name does not exist"));
-        return account.getId();
     }
     public List<BankAccount> getAllAccounts() {
         return repository.findAll();

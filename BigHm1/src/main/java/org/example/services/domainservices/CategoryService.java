@@ -17,8 +17,10 @@ public class CategoryService implements SaveServiceInterface<Category> {
     }
 
     @Override
-    public void addList(List<Category> categories) {
-        categories.forEach(categoryRepository::save);
+    public void addList(List<Category> categories) throws InvalidArgumentException {
+        for (Category category : categories) {
+            add(category);
+        }
     }
 
     public void add(Category category) throws InvalidArgumentException {
@@ -35,13 +37,13 @@ public class CategoryService implements SaveServiceInterface<Category> {
         return categoryRepository.findById(id);
     }
 
-    public String getIdByName(String name) throws InvalidArgumentException {
+    public Category getByName(String name) throws InvalidArgumentException {
         Category category = categoryRepository.findAll()
                .stream()
                .filter(repAccount -> repAccount.getName().equals(name))
                .findFirst()
                .orElseThrow(() -> new InvalidArgumentException("Account with this name does not exist"));
-        return category.getId();
+        return category;
     }
 
     public List<Category> getAllCategories() {

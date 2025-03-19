@@ -1,29 +1,31 @@
-package org.example.repository;
+package org.example.services.domainservices;
 
-import org.example.builders.OperationBuilder;
+import org.example.builders.BankAccountBuilder;
 import org.example.constants.Constants;
+import org.example.domain.BankAccount;
 import org.example.domain.Operation;
 import org.example.domain.OperationFactory;
+import org.example.repository.OperationRepository;
+import org.example.services.domainservices.OperationService;
 import org.junit.jupiter.api.Test;
-import org.yaml.snakeyaml.scanner.Constant;
 
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.assertj.core.api.Fail.fail;
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-public class OperationRepositoryTest {
-    OperationRepository operationRepository = new OperationRepository();
+public class OperationServiceTest {
+    OperationService operationService = new OperationService(new OperationRepository());
 
     @Test
-    void saveTest() {
+    public void saveTest() {
         try {
             Operation operation = OperationFactory.create("доход", "1234567890", 100,
                     Constants.DateFormat.parse("2022-01-01"), "Test operation", "123");
-            operationRepository.save(operation);
+            operationService.add(operation);
         } catch (Exception e) {
             fail(e.getMessage());
         }
@@ -35,28 +37,13 @@ public class OperationRepositoryTest {
             Operation operation = OperationFactory.create("доход", "1234567890", 100,
                     Constants.DateFormat.parse("2022-01-01"), "Test operation", "123");
 
-            operationRepository.save(operation);
+            operationService.add(operation);
 
             Operation operation1 = OperationFactory.create("доход", "1234567890", 110,
                     Constants.DateFormat.parse("2022-01-01"), "Test operation", "123");
-            operationRepository.save(operation1);
+            operationService.add(operation1);
 
-            assertEquals(operationRepository.findAll().size(), 2);
-        } catch (Exception e) {
-            fail(e.getMessage());
-        }
-    }
-
-    @Test
-    void deleteTest() {
-        try {
-            Operation operation = OperationFactory.create("доход", "1234567890", 100,
-                    Constants.DateFormat.parse("2022-01-01"), "Test operation", "123");
-            operationRepository.save(operation);
-
-            operationRepository.delete(operation.getId());
-
-            assertEquals(operationRepository.findAll().size(), 0);
+            assertEquals(operationService.getAllOperations().size(), 2);
         } catch (Exception e) {
             fail(e.getMessage());
         }
@@ -67,7 +54,7 @@ public class OperationRepositoryTest {
         Exception exception = assertThrows(Exception.class, ()->{
                     Operation operation = OperationFactory.create("доход1", "1234567890", 100,
                             Constants.DateFormat.parse("2022-01-01"), "Test operation", "123");
-        }
+                }
         );
         assertEquals(exception.getMessage(), "Invalid operation type: доход1");
     }
@@ -75,9 +62,9 @@ public class OperationRepositoryTest {
     @Test
     void saveWithWrongAmountTest() {
         Exception exception = assertThrows(Exception.class, ()->{
-            Operation operation = OperationFactory.create("доход", "1234567890", -100,
-                    Constants.DateFormat.parse("2022-01-01"), "Test operation", "123");
-        }
+                    Operation operation = OperationFactory.create("доход", "1234567890", -100,
+                            Constants.DateFormat.parse("2022-01-01"), "Test operation", "123");
+                }
         );
 
         assertEquals(exception.getMessage(), "Amount can't be negative");
@@ -86,9 +73,10 @@ public class OperationRepositoryTest {
     @Test
     void saveWithWrongDateTest() {
         assertThrows(ParseException.class, ()->{
-            Operation operation = OperationFactory.create("доход", "1234567890", 100,
-                    Constants.DateFormat.parse("20220101"), "Test operation", "123");
+                    Operation operation = OperationFactory.create("доход", "1234567890", 100,
+                            Constants.DateFormat.parse("20220101"), "Test operation", "123");
                 }
         );
     }
+
 }

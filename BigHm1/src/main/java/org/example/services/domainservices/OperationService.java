@@ -18,9 +18,10 @@ public class OperationService implements SaveServiceInterface<Operation> {
 
     @Override
     public void addList(List<Operation> operations) {
-        operations.forEach(operationRepository::save);
+        for (Operation operation : operations) {
+            add(operation);
+        }
     }
-
     public void add(Operation operation) {
         operationRepository.save(operation);
     }

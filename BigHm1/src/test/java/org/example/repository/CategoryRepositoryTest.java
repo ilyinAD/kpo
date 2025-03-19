@@ -2,6 +2,8 @@ package org.example.repository;
 
 import org.example.builders.CategoryBuilder;
 import org.example.domain.Category;
+import org.example.domain.CategoryFactory;
+import org.example.exceptions.InvalidArgumentException;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
@@ -87,8 +89,7 @@ public class CategoryRepositoryTest {
 
             categoryRepository.delete(category.getId());
 
-            Category foundCategory = categoryRepository.findById(category.getId());
-            assertNull(foundCategory);
+            assertThrows(InvalidArgumentException.class, ()->categoryRepository.findById(category.getId()));
         } catch (Exception e) {
             fail("Test failed with exception: " + e.getMessage());
         }
@@ -97,14 +98,10 @@ public class CategoryRepositoryTest {
     @Test
     void findByNotExistedIdTest() {
         try {
-            Category category = new CategoryBuilder()
-                    .setName("работа")
-                    .setType("доход")
-                    .build();
+            Category category = CategoryFactory.create("доход", "работа");
             categoryRepository.save(category);
 
-            Category foundCategory = categoryRepository.findById("1");
-            assertNull(foundCategory);
+            assertThrows(InvalidArgumentException.class, ()->categoryRepository.findById("1"));
         } catch (Exception e) {
             fail("Test failed with exception: " + e.getMessage());
         }
