@@ -8,7 +8,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Profile;
 
 import java.util.Scanner;
-//TODO: крч добавить шоб айдишник генерировался сам при создании(например передавать функцию генерации в create). Мб сделать проверку на то что foreign id существует
 
 @SpringBootApplication
 public class Main implements CommandLineRunner {
@@ -19,9 +18,9 @@ public class Main implements CommandLineRunner {
         this.terminalController = terminalController;
     }
     @Override
-    public void run(String... args) throws Exception{
+    public void run(String... args) {
         System.out.println("IN MAIN");
-        terminalController.start(new Scanner(System.in));
+        terminalController.start(new Scanner(System.in), "./", "./"); // закоментить если тестируем(
     }
 
     public static void main(String[] args) {

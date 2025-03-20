@@ -21,6 +21,6 @@ public class TerminalControllerTest {
         Scanner scanner = new Scanner("csv\nyaml\n4\n" +
                 "5\n6\n7\n2020-10-10\n2024-10-10\n1\nмакс1\n1000\n" +
                 "2\nдоход\nстажка\n3\nартем\n100\n2024-12-12\nhz\nработа\n0\n");
-        terminalController.start(scanner);
+        terminalController.start(scanner, "src/test/java/", "src/test/java/");
     }
 }

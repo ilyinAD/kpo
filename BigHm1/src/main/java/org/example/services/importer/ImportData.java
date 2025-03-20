@@ -21,7 +21,7 @@ abstract class ImportData {
     SaveServiceInterface<Category> categoryService;
     SaveServiceInterface<Operation> operationService;
     @Autowired
-    public ImportData(BankAccountService bankAccountService, CategoryService categoryService, OperationService operationService) {
+    public ImportData(SaveServiceInterface<BankAccount> bankAccountService, SaveServiceInterface<Category> categoryService, SaveServiceInterface<Operation> operationService) {
         this.bankAccountService = bankAccountService;
         this.categoryService = categoryService;
         this.operationService = operationService;

@@ -4,7 +4,6 @@ import org.example.builders.BankAccountBuilder;
 import org.example.builders.CategoryBuilder;
 import org.example.builders.OperationBuilder;
 import org.example.constants.Constants;
-import org.example.domain.Category;
 import org.example.exceptions.InvalidArgumentException;
 import org.example.services.exporter.ExportDataService;
 import org.example.services.importer.ImportDataCsv;
@@ -65,16 +64,16 @@ public class TerminalController {
     private String getFolderPath(String fileFormat) {
         switch (fileFormat) {
             case "json":
-                return Constants.PathToJsonFolder;
+                return Constants.JsonFolder;
             case "csv":
-                return Constants.PathToCsvFolder;
+                return Constants.CsvFolder;
             case "yaml":
-                return Constants.PathToYamlFolder;
+                return Constants.YamlFolder;
         }
 
         return "";
     }
-    public void start(Scanner scanner) {
+    public void start(Scanner scanner, String importPath, String exportPath) {
         boolean validInput = false;
         String importFileFormat = "";
         while (!validInput) {
@@ -97,12 +96,15 @@ public class TerminalController {
             }
         }
 
-        String importFolderPath = getFolderPath(importFileFormat);
-        String exportFolderPath = getFolderPath(exportFileFormat);
+        String importFolder = getFolderPath(importFileFormat);
+        String exportFolder = getFolderPath(exportFileFormat);
 
         try {
             //importData.importData("datajson\\bankAccounts.json", "datajson\\categories.json", "datajson\\operations.json");
-            importData.importData(importFolderPath + "\\bankAccounts." + importFileFormat, importFolderPath + "\\categories." + importFileFormat, importFolderPath + "\\operations." + importFileFormat);
+            importData.importData(
+                    importPath + importFolder + "\\bankAccounts." + importFileFormat,
+                    importPath + importFolder + "\\categories." + importFileFormat,
+                    importPath + importFolder + "\\operations." + importFileFormat);
         }
         catch (Exception e) {
             System.out.println("Ошибка импорта данных: " + e.getMessage());
@@ -192,7 +194,10 @@ public class TerminalController {
         }
 
         try {
-            exportData.Export(exportFolderPath + "\\bankAccounts." + exportFileFormat, exportFolderPath + "\\categories." + exportFileFormat, exportFolderPath + "\\operations." + exportFileFormat, exportFileFormat);
+            exportData.Export(
+                     exportPath + exportFolder + "\\bankAccounts." + exportFileFormat,
+                    exportPath + exportFolder + "\\categories." + exportFileFormat,
+                    exportPath + exportFolder + "\\operations." + exportFileFormat, exportFileFormat);
         } catch (Exception e) {
             System.out.println("Ошибка экспорта данных: " + e.getMessage());
         }
@@ -231,8 +236,6 @@ public class TerminalController {
         System.out.print("Введите имя банковского счета: ");
         String accountName = scanner.nextLine();
         builder = builder.setBankAccountName(accountName);
-//        builder = builder.setBankAccountId(domainFacadeController.getBankFacade().
-//                getBankAccountService().getByName(scanner.nextLine()).getId());
 
         System.out.print("Введите сумму: ");
         builder = builder.setAmount(scanner.nextDouble());
@@ -247,14 +250,6 @@ public class TerminalController {
         System.out.print("Введите имя категории: ");
         String categoryName = scanner.nextLine();
         builder = builder.setCategoryName(categoryName);
-//        String id = domainFacadeController.getBankFacade().
-//                getCategoryService().getByName(name).getId();
-//
-//        builder = builder.setCategoryId(id);
-
-//        Category category = domainFacadeController.getBankFacade().getCategoryService().findById(id);
-//
-//        builder.setType(category.getType().toString());
 
         domainFacadeController.getBankFacade().getOperationService().add(builder.build());
         System.out.println("Операция добавлена!");
