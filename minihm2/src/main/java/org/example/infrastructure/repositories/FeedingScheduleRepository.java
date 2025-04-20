@@ -1,5 +1,6 @@
 package org.example.infrastructure.repositories;
 
+import lombok.Getter;
 import org.example.domain.models.FeedingSchedule;
 import org.example.domain.repositoryinterfaces.FeedingScheduleRepositoryInterface;
 import org.springframework.stereotype.Component;
@@ -10,22 +11,26 @@ import java.util.Objects;
 import java.util.Optional;
 
 @Component
+@Getter
 public class FeedingScheduleRepository implements FeedingScheduleRepositoryInterface {
     private List<FeedingSchedule> scheduleList = new ArrayList<>();
 
-    public void update(FeedingSchedule schedule) {
+    public FeedingSchedule update(FeedingSchedule schedule) {
         for (int i = 0; i < scheduleList.size(); ++i) {
             if (Objects.equals(scheduleList.get(i).getId(), schedule.getId())) {
                 scheduleList.set(i, schedule);
-                return;
+                return scheduleList.get(i);
             }
         }
+        throw new IllegalStateException("no feedingSchedule in list");
     }
-    public void add(FeedingSchedule schedule) {
+    public FeedingSchedule add(FeedingSchedule schedule) {
         scheduleList.add(schedule);
+        return schedule;
     }
-    public void delete(FeedingSchedule schedule) {
+    public FeedingSchedule delete(FeedingSchedule schedule) {
         scheduleList.remove(schedule);
+        return schedule;
     }
     public Optional<FeedingSchedule> getByID(String scheduleID) {
         return scheduleList.stream().

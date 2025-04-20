@@ -1,12 +1,17 @@
 package org.example.domain.models;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
+import lombok.Setter;
 import org.example.exceptions.EnclosureFullException;
+import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.function.Supplier;
 
 @Getter
+@Setter
 public class Animal {
     private String species;
     private String name;
@@ -14,7 +19,7 @@ public class Animal {
     private Gender gender;
     private HealthStatus healthStatus;
     private String favoriteFood;
-    private Enclosure enclosure;
+    private String enclosureID;
     private String id;
     public Animal(String species, String name, LocalDate birthDate, Gender gender, String favoriteFood, Supplier<String> generateID) {
         this.species = species;
@@ -25,7 +30,12 @@ public class Animal {
         this.healthStatus = HealthStatus.HEALTHY;
         this.id = generateID.get();
     }
-    public Animal(String species, String name, LocalDate birthDate, Gender gender, String favoriteFood) {
+    @JsonCreator
+    public Animal( @JsonProperty("species") String species,
+                   @JsonProperty("name") String name,
+                   @JsonProperty("birthDate") LocalDate birthDate,
+                   @JsonProperty("gender") Gender gender,
+                   @JsonProperty("favoriteFood") String favoriteFood) {
         this.species = species;
         this.name = name;
         this.birthDate = birthDate;
@@ -44,11 +54,6 @@ public class Animal {
         healthStatus = HealthStatus.HEALTHY;
     }
     public void moveToEnclosure(Enclosure newEnclosure) throws EnclosureFullException {
-        if (this.enclosure != null) {
-            this.enclosure.delete(this);
-        }
-
-        newEnclosure.save(this);
-        this.enclosure = newEnclosure;
+        this.enclosureID = newEnclosure.getId();
     }
 }

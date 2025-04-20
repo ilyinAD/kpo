@@ -1,5 +1,7 @@
 package org.example.domain.models;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import org.example.exceptions.EnclosureFullException;
 
@@ -18,7 +20,10 @@ public class Enclosure {
     public int getAnimalsAmount() {
         return animals.size();
     }
-    Enclosure(AnimalType animalType, int maxAnimalsAmount, int area) {
+    @JsonCreator
+    Enclosure(@JsonProperty("animalType") AnimalType animalType,
+              @JsonProperty("maxAnimalsAmount") int maxAnimalsAmount,
+              @JsonProperty("area") int area) {
         this.animalType = animalType;
         this.maxAnimalsAmount = maxAnimalsAmount;
         this.area = area;
@@ -32,7 +37,7 @@ public class Enclosure {
         this.id = generateID.get();
     }
 
-    void save(Animal animal) throws EnclosureFullException {
+    public void save(Animal animal) throws EnclosureFullException {
         if (animals.size() == maxAnimalsAmount) {
             throw new EnclosureFullException("Enclosure is full");
         }
@@ -43,7 +48,7 @@ public class Enclosure {
             animals.add(animal);
     }
 
-    void delete(Animal animal) {
+    public void delete(Animal animal) {
         animals.remove(animal);
     }
 }

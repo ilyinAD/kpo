@@ -1,6 +1,9 @@
 package org.example.domain.models;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
+import org.springframework.web.bind.annotation.PostMapping;
 
 import java.time.LocalTime;
 import java.util.Objects;
@@ -12,8 +15,11 @@ public class FeedingSchedule {
     private String foodType;
     private boolean isComplete;
     private String id;
+    @JsonCreator
 
-    public FeedingSchedule(Animal animal, LocalTime feedingTime, String foodType) {
+    public FeedingSchedule(@JsonProperty("animal") Animal animal,
+                           @JsonProperty("feedingTime") LocalTime feedingTime,
+                           @JsonProperty("foodType") String foodType) {
         this.animal = animal;
         this.feedingTime = feedingTime;
         this.foodType = foodType;

@@ -23,6 +23,13 @@
         </repository>
     </repositories>
 
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>3.1.4</version>
+        <relativePath/>
+    </parent>
+
     <dependencies>
         <!--        <dependency>-->
         <!--            <groupId>org.springframework.boot</groupId>-->
@@ -32,22 +39,23 @@
 
         <dependency>
             <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+            <version>3.1.4</version> <!-- Use the latest compatible version -->
+        </dependency>
+
+        <!-- Spring Boot DevTools (для упрощения разработки) -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-devtools</artifactId>
+            <version>3.1.4</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
-            <version>${spring-boot.version}</version>
             <scope>test</scope>
         </dependency>
 
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter</artifactId>
-            <version>${spring-boot.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-autoconfigure</artifactId>
-            <version>${spring-boot.version}</version>
-        </dependency>
 
         <dependency>
             <groupId>org.mockito</groupId>
@@ -152,6 +160,7 @@
             <version>3.24.2</version>
             <scope>test</scope>
         </dependency>
+
 
         <!--        <dependency>-->
         <!--            <groupId>org.mockito</groupId>-->

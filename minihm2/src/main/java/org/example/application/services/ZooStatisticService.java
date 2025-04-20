@@ -1,11 +1,8 @@
 package org.example.application.services;
 
-import org.example.domain.models.Animal;
+import org.example.application.services.domain.AnimalService;
+import org.example.application.services.domain.EnclosureService;
 import org.example.domain.models.Enclosure;
-import org.example.domain.repositoryinterfaces.AnimalRepositoryInterface;
-import org.example.domain.repositoryinterfaces.EnclosureRepositoryInterface;
-import org.example.infrastructure.repositories.AnimalRepository;
-import org.example.infrastructure.repositories.EnclosureRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,27 +11,33 @@ import java.util.stream.Collectors;
 
 @Service
 public class ZooStatisticService {
-    private final AnimalRepositoryInterface animalRepository;
-    private final EnclosureRepositoryInterface enclosureRepository;
+    private final AnimalService animalService;
+    private final EnclosureService enclosureService;
     @Autowired
-    public ZooStatisticService(AnimalRepositoryInterface animalRepository, EnclosureRepositoryInterface enclosureRepository) {
-        this.animalRepository = animalRepository;
-        this.enclosureRepository = enclosureRepository;
+    public ZooStatisticService(AnimalService animalRepository, EnclosureService enclosureRepository) {
+        this.animalService = animalRepository;
+        this.enclosureService = enclosureRepository;
     }
 
-    public long countAnimals(List<Animal> animals) {
-        return animals.size();
+    public long countAnimals() {
+        return animalService.getAnimals().size();
     }
 
-    public long countFreeEnclosures(List<Enclosure> enclosures) {
-        return enclosures.stream()
+    public long countFreeEnclosures() {
+        return enclosureService.getEnclosures().stream()
                 .filter(e -> e.getAnimalsAmount() < e.getMaxAnimalsAmount())
                 .count();
     }
 
-    public List<Enclosure> getFulledEnclosures(List<Enclosure> enclosures) {
-        return enclosures.stream()
+    public List<Enclosure> getFulledEnclosures() {
+        return enclosureService.getEnclosures().stream()
                 .filter(e -> e.getAnimalsAmount() == e.getMaxAnimalsAmount())
+                .collect(Collectors.toList());
+    }
+
+    public List<Enclosure> getEmptyEnclosures() {
+        return enclosureService.getEnclosures().stream()
+                .filter(e -> e.getAnimalsAmount() < e.getAnimalsAmount())
                 .collect(Collectors.toList());
     }
 }
