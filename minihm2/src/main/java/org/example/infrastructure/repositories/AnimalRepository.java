@@ -1,33 +1,24 @@
-package org.example.repositories;
+package org.example.infrastructure.repositories;
 
-import org.example.domain.Animal;
-import org.example.domain.IdGenerator;
+import org.example.domain.models.Animal;
+import org.example.domain.repositoryinterfaces.AnimalRepositoryInterface;
 import org.springframework.stereotype.Component;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
 @Component
-public class AnimalRepository {
+public class AnimalRepository implements AnimalRepositoryInterface {
     private List<Animal> animals = new ArrayList<>();
-    public void save(Animal animal) {
-        boolean exists = animals.stream()
-                .anyMatch(el -> Objects.equals(el.getId(), animal.getId()));
-        if (!exists) {
-            add(animal);
-        } else {
-            update(animal);
-        }
-    }
 
-    private void add(Animal animal) {
+
+    public void add(Animal animal) {
         animals.add(animal);
     }
 
-    private void update(Animal animal) {
+    public void update(Animal animal) {
         for (int i = 0; i < animals.size(); ++i) {
             if (Objects.equals(animals.get(i).getId(), animal.getId())) {
                 animals.set(i, animal);

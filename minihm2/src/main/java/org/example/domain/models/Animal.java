@@ -1,11 +1,9 @@
-package org.example.domain;
+package org.example.domain.models;
 
 import lombok.Getter;
 import org.example.exceptions.EnclosureFullException;
 
 import java.time.LocalDate;
-import java.util.Date;
-import java.util.UUID;
 import java.util.function.Supplier;
 
 @Getter

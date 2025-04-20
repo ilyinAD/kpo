@@ -1,21 +1,22 @@
-package org.example.services;
+package org.example.application.services;
 
-import org.example.domain.Animal;
-import org.example.domain.Enclosure;
-import org.example.exceptions.EnclosureFullException;
-import org.example.repositories.AnimalRepository;
-import org.example.repositories.EnclosureRepository;
+import org.example.domain.models.Animal;
+import org.example.domain.models.Enclosure;
+import org.example.domain.repositoryinterfaces.AnimalRepositoryInterface;
+import org.example.domain.repositoryinterfaces.EnclosureRepositoryInterface;
+import org.example.infrastructure.repositories.AnimalRepository;
+import org.example.infrastructure.repositories.EnclosureRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 public class AnimalTransferService {
-    private final AnimalRepository animalRepository;
-    private final EnclosureRepository enclosureRepository;
+    private final AnimalService animalRepository;
+    private final EnclosureService enclosureRepository;
     @Autowired
-    AnimalTransferService(AnimalRepository animalRepository, EnclosureRepository enclosureRepository) {
+    AnimalTransferService(AnimalService animalRepository, EnclosureService enclosureService) {
         this.animalRepository = animalRepository;
-        this.enclosureRepository = enclosureRepository;
+        this.enclosureRepository = enclosureService;
     }
 
     public void transferAnimal(String animalID, String enclosureID) throws Exception {

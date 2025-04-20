@@ -1,9 +1,11 @@
-package org.example.services;
+package org.example.application.services;
 
-import org.example.domain.Animal;
-import org.example.domain.Enclosure;
-import org.example.repositories.AnimalRepository;
-import org.example.repositories.EnclosureRepository;
+import org.example.domain.models.Animal;
+import org.example.domain.models.Enclosure;
+import org.example.domain.repositoryinterfaces.AnimalRepositoryInterface;
+import org.example.domain.repositoryinterfaces.EnclosureRepositoryInterface;
+import org.example.infrastructure.repositories.AnimalRepository;
+import org.example.infrastructure.repositories.EnclosureRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,10 +14,10 @@ import java.util.stream.Collectors;
 
 @Service
 public class ZooStatisticService {
-    private final AnimalRepository animalRepository;
-    private final EnclosureRepository enclosureRepository;
+    private final AnimalRepositoryInterface animalRepository;
+    private final EnclosureRepositoryInterface enclosureRepository;
     @Autowired
-    public ZooStatisticService(AnimalRepository animalRepository, EnclosureRepository enclosureRepository) {
+    public ZooStatisticService(AnimalRepositoryInterface animalRepository, EnclosureRepositoryInterface enclosureRepository) {
         this.animalRepository = animalRepository;
         this.enclosureRepository = enclosureRepository;
     }

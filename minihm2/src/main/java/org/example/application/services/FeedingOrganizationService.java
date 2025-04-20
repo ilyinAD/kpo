@@ -1,17 +1,16 @@
-package org.example.services;
+package org.example.application.services;
 
-import org.example.domain.FeedingSchedule;
-import org.example.repositories.FeedingScheduleRepository;
+import org.example.domain.models.FeedingSchedule;
+import org.example.domain.repositoryinterfaces.FeedingScheduleRepositoryInterface;
+import org.example.infrastructure.repositories.FeedingScheduleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
-
 @Service
 public class FeedingOrganizationService {
-    private final FeedingScheduleRepository scheduleRepository;
+    private final FeedingScheduleRepositoryInterface scheduleRepository;
     @Autowired
-    public FeedingOrganizationService(FeedingScheduleRepository scheduleRepository) {
+    public FeedingOrganizationService(FeedingScheduleRepositoryInterface scheduleRepository) {
         this.scheduleRepository = scheduleRepository;
     }
 
