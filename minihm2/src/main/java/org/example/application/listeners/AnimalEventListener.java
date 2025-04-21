@@ -8,6 +8,6 @@ import org.springframework.stereotype.Component;
 public class AnimalEventListener {
     @EventListener
     public void handleAnimalMovedEvent(AnimalMovedEvent animalMovedEvent) {
-        System.out.println("animal with id" + animalMovedEvent.getAnimalID() + "was moved to enclosure with id" + animalMovedEvent.getEnclosureID());
+        System.out.println("animal with id " + animalMovedEvent.getAnimalID() + " was moved to enclosure with id " + animalMovedEvent.getEnclosureID());
     }
 }

@@ -8,6 +8,6 @@ import org.springframework.stereotype.Component;
 public class FeedingEventListener {
     @EventListener
     public void handleFeedingEvent(FeedingTimeEvent feedingTimeEvent) {
-        System.out.println("Scheduled feeding event with id" + feedingTimeEvent.getFeedingScheduleID() + "was executed");
+        System.out.println("Scheduled feeding event with id " + feedingTimeEvent.getFeedingScheduleID() + " was executed");
     }
 }

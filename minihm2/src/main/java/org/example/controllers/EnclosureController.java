@@ -1,5 +1,6 @@
 package org.example.controllers;
 
+import org.example.application.interfaces.domain.IEnclosureService;
 import org.example.application.services.domain.AnimalService;
 import org.example.application.services.domain.EnclosureService;
 import org.example.domain.models.Animal;
@@ -15,19 +16,19 @@ import java.util.Optional;
 @RestController
 @RequestMapping("/enclosures")
 public class EnclosureController {
-    private final EnclosureService enclosureService;
+    private final IEnclosureService enclosureService;
     @Autowired
-    EnclosureController(EnclosureService enclosureService) {
+    EnclosureController(IEnclosureService enclosureService) {
         this.enclosureService = enclosureService;
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Enclosure> getEnclosureByID(@PathVariable String id) {
+    public ResponseEntity<?> getEnclosureByID(@PathVariable String id) {
         try {
             Optional<Enclosure> enclosure = enclosureService.getByID(id);
             return enclosure.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.toString());
         }
     }
     @GetMapping
@@ -36,21 +37,21 @@ public class EnclosureController {
     }
 
     @PostMapping
-    public ResponseEntity<Enclosure> addAnimal(@RequestBody Enclosure enclosure) {
+    public ResponseEntity<?> addAnimal(@RequestBody Enclosure enclosure) {
         try {
             Enclosure addedEnclosure = enclosureService.save(enclosure);
             return ResponseEntity.ok(addedEnclosure);
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.toString());
         }
     }
     @DeleteMapping("/{id}")
-    public ResponseEntity<Enclosure> deleteAnimal(@PathVariable String id) {
+    public ResponseEntity<?> deleteAnimal(@PathVariable String id) {
         try {
             Enclosure deletedEnclosure = enclosureService.deleteByID(id);
             return ResponseEntity.ok(deletedEnclosure);
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.toString());
         }
     }
 }

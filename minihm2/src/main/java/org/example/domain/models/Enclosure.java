@@ -3,11 +3,8 @@ package org.example.domain.models;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
-import org.example.exceptions.EnclosureFullException;
+import org.example.exceptions.EnclosureException;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
 import java.util.function.Supplier;
 
 @Getter
@@ -15,11 +12,8 @@ public class Enclosure {
     private AnimalType animalType;
     private int maxAnimalsAmount;
     private int area;
-    private List<Animal> animals = new ArrayList<>();
+    private int currentAnimalAmount;
     private String id;
-    public int getAnimalsAmount() {
-        return animals.size();
-    }
     @JsonCreator
     Enclosure(@JsonProperty("animalType") AnimalType animalType,
               @JsonProperty("maxAnimalsAmount") int maxAnimalsAmount,
@@ -37,18 +31,19 @@ public class Enclosure {
         this.id = generateID.get();
     }
 
-    public void save(Animal animal) throws EnclosureFullException {
-        if (animals.size() == maxAnimalsAmount) {
-            throw new EnclosureFullException("Enclosure is full");
+    public void save() throws EnclosureException {
+        if (currentAnimalAmount == maxAnimalsAmount) {
+            throw new EnclosureException("Enclosure is full");
         }
 
-        boolean exists = animals.stream()
-                .anyMatch(el -> Objects.equals(el.getId(), animal.getId()));
-        if (!exists)
-            animals.add(animal);
+        currentAnimalAmount++;
     }
 
-    public void delete(Animal animal) {
-        animals.remove(animal);
+    public void delete() throws EnclosureException {
+        if (currentAnimalAmount == 0) {
+            throw new EnclosureException("Enclosure is empty");
+        }
+
+        currentAnimalAmount--;
     }
 }

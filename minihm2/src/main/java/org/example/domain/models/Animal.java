@@ -4,8 +4,7 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
-import org.example.exceptions.EnclosureFullException;
-import org.springframework.stereotype.Service;
+import org.example.exceptions.EnclosureException;
 
 import java.time.LocalDate;
 import java.util.function.Supplier;
@@ -53,7 +52,7 @@ public class Animal {
     public void cure() {
         healthStatus = HealthStatus.HEALTHY;
     }
-    public void moveToEnclosure(Enclosure newEnclosure) throws EnclosureFullException {
+    public void moveToEnclosure(Enclosure newEnclosure) throws EnclosureException {
         this.enclosureID = newEnclosure.getId();
     }
 }
