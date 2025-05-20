@@ -7,7 +7,7 @@ import (
 
 func NewMux(uploadHandler *handlers.UploadFileHandler, getFileHandler *handlers.GetFileHandler) *http.ServeMux {
 	mux := http.NewServeMux()
-	mux.Handle("POST /uploadfile", http.HandlerFunc(uploadHandler.ServeHTTP))
-	mux.Handle("GET /getfile", http.HandlerFunc(getFileHandler.ServeHTTP))
+	mux.Handle("POST /uploadfile", uploadHandler)
+	mux.Handle("GET /getfile", getFileHandler)
 	return mux
 }

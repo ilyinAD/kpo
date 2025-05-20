@@ -1,7 +1,12 @@
 package main
 
-import "fmt"
+import (
+	"BigHw2Go/internal/utils"
+
+	"go.uber.org/fx"
+)
 
 func main() {
-	fmt.Println("Hello World")
+	utils.LoadEnv()
+	fx.New(BuildApp()).Run()
 }
