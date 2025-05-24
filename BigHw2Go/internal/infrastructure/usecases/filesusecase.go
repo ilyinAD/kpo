@@ -22,18 +22,9 @@ func (fu *FileUseCase) AddFile(ctx context.Context, fileModel *domainfilesstorin
 	opCtx, cancel := context.WithTimeout(ctx, 5*time.Second)
 	defer cancel()
 
-	gotFileModel, err := fu.fileRepository.GetFileByLocation(opCtx, fileModel.Location)
-	if err != nil {
-		return uuid.Nil, fmt.Errorf("fileRepository: GetFileByLocation: %w", err)
-	}
-
-	if gotFileModel != nil {
-		return gotFileModel.ID, nil
-	}
-
 	addedFileModel, err := fu.fileRepository.AddFile(opCtx, fileModel)
 	if err != nil {
-		return uuid.UUID{}, fmt.Errorf("fileRepository: AddFile: %w", err)
+		return uuid.Nil, fmt.Errorf("fileRepository: AddFile: %w", err)
 	}
 
 	return addedFileModel.ID, nil

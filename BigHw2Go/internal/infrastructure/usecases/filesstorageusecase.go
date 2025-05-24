@@ -4,7 +4,6 @@ import (
 	"errors"
 	"fmt"
 	"io"
-	"mime/multipart"
 	"os"
 	"path/filepath"
 )
@@ -16,7 +15,7 @@ func NewFilesStorageUseCase() *FilesStorageUseCase {
 	return &FilesStorageUseCase{}
 }
 
-func (fu *FilesStorageUseCase) UploadFileToStorage(file multipart.File, location string) error {
+func (fu *FilesStorageUseCase) UploadFileToStorage(file io.Reader, location string) error {
 	dir := filepath.Dir(location)
 
 	err := os.MkdirAll(dir, 0755)

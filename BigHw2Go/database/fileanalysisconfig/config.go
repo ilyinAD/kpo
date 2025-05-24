@@ -1,4 +1,4 @@
-package filesstoringconfig
+package fileanalysisconfig
 
 import (
 	"BigHw2Go/database/dbconfig"
@@ -12,7 +12,7 @@ type DBConfig struct {
 	Port     int    `env:"DB_PORT"`
 	Username string `env:"POSTGRES_USER"`
 	Password string `env:"POSTGRES_PASSWORD"`
-	Name     string `env:"STORING_POSTGRES_DB"`
+	Name     string `env:"ANALYSIS_POSTGRES_DB"`
 }
 
 func (d *DBConfig) ToDSN() string {

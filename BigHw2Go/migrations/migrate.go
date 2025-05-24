@@ -1,4 +1,4 @@
-package filesstoring
+package migrations
 
 import (
 	"embed"
@@ -11,10 +11,7 @@ import (
 	"github.com/pressly/goose/v3"
 )
 
-//go:embed 0001_init_db.sql
-var embedMigrations embed.FS
-
-func Migrate(cfg *pgxpool.Config) error {
+func Migrate(cfg *pgxpool.Config, embedMigrations embed.FS) error {
 	log.Println("start migrations")
 
 	isMigrate := os.Getenv("IS_DOCKER_COMPOSE_MIGRATION")

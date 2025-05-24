@@ -24,7 +24,7 @@ func NewGetFileHandler(logger *zap.Logger, filesStoringFacade *usecases.FilesSto
 }
 
 func (gfh *GetFileHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
-	fileStringID := r.FormValue("id")
+	fileStringID := r.PathValue("id")
 
 	fileId, err := uuid.Parse(fileStringID)
 	if err != nil {

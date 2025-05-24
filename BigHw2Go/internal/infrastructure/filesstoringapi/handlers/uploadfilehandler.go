@@ -7,6 +7,7 @@ import (
 	"fmt"
 	"mime/multipart"
 	"net/http"
+	"time"
 
 	"go.uber.org/zap"
 )
@@ -40,9 +41,8 @@ func (ufh *UploadFileHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) 
 		}
 	}(file)
 
-	location := r.FormValue("location")
 	// все загруженные файлы будут лежать в одной папке.
-	location = "./uploaded/" + location
+	location := "./uploaded/" + time.Now().Format("20060102_150405") + "/" + handler.Filename
 
 	id, err := ufh.filesStoringFacade.UploadFile(r.Context(), file, handler, location)
 	if err != nil {

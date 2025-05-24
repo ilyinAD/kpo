@@ -1,7 +1,7 @@
 package database
 
 import (
-	"BigHw2Go/database/filesstoringconfig"
+	"BigHw2Go/database/dbconfig"
 	"context"
 	"fmt"
 	"log"
@@ -11,7 +11,7 @@ import (
 	"go.uber.org/fx"
 )
 
-func NewPgxPoolConfig(cfg *filesstoringconfig.DBConfig) (*pgxpool.Config, error) {
+func NewPgxPoolConfig(cfg dbconfig.DBConfig) (*pgxpool.Config, error) {
 	fmt.Println(cfg.ToDSN())
 
 	connConfig, err := pgxpool.ParseConfig(cfg.ToDSN())
