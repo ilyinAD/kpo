@@ -22,5 +22,5 @@ func (cf *ClientFilesStoring) GetFile(fileID uuid.UUID) (io.ReadCloser, error) {
 		return nil, fmt.Errorf("error client GET: %v", err)
 	}
 
-	return resp.RawResponse.Body, nil
+	return resp.RawBody(), nil
 }

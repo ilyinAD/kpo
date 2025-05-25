@@ -13,6 +13,7 @@ func FxModuleFileAnalysis() fx.Option {
 		fx.Provide(NewMux),
 		fx.Provide(NewServer),
 		fx.Provide(handlers.NewMakeAnalysisHandler),
+		fx.Provide(handlers.NewGetWordCloudHandler),
 		fx.Invoke(RunServer),
 	)
 }

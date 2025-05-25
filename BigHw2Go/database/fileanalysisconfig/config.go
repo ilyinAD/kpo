@@ -9,7 +9,7 @@ import (
 
 type DBConfig struct {
 	Host     string `env:"DB_HOST"`
-	Port     int    `env:"DB_PORT"`
+	Port     int    `env:"ANALYSIS_DB_PORT"`
 	Username string `env:"POSTGRES_USER"`
 	Password string `env:"POSTGRES_PASSWORD"`
 	Name     string `env:"ANALYSIS_POSTGRES_DB"`

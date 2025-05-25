@@ -41,7 +41,7 @@ func (ar *AnalysisRepository) AddAnalysis(ctx context.Context, analysisModel *do
 	var addedAnalysisModel domainfileanalysisserver.FileAnalysisModel
 
 	err := ar.pool.QueryRow(ctx, "insert into analysis values ($1, $2, $3, $4, $5) returning id, sym_cnt, word_cnt, pr_cnt, img_location",
-		analysisModel.ID, analysisModel.SymbolCnt, analysisModel.WordCnt, analysisModel.ParagraphCnt, addedAnalysisModel.ImgLocation).
+		analysisModel.ID, analysisModel.SymbolCnt, analysisModel.WordCnt, analysisModel.ParagraphCnt, analysisModel.ImgLocation).
 		Scan(&addedAnalysisModel.ID, &addedAnalysisModel.SymbolCnt, &addedAnalysisModel.WordCnt,
 			&addedAnalysisModel.ParagraphCnt, &addedAnalysisModel.ImgLocation)
 	if err != nil {

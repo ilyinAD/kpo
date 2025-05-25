@@ -7,5 +7,8 @@ func FxModuleFileAnalysis() fx.Option {
 		fx.Provide(NewClientFilesStoring),
 		fx.Provide(NewFileAnalysisFacade),
 		fx.Provide(NewAnalysisUseCase),
+		fx.Provide(NewWordCloudAPIUseCase),
+		fx.Provide(NewFilesStorageUseCase),
+		fx.Provide(NewFileAnalyzer),
 	)
 }

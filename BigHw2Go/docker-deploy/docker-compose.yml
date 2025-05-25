@@ -2,20 +2,36 @@ version: '3.8'
 
 services:
   storing_db:
+    profiles: ["filesstoring", "infrastructure"]
     image: postgres:15
+    container_name: storing_bd
     environment:
       POSTGRES_USER: ${POSTGRES_USER}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
       POSTGRES_DB: ${STORING_POSTGRES_DB}
     ports:
-      - "${DB_PORT}:5432"
+      - "5434:5432"
     volumes:
-      - postgres_data:/var/lib/postgresql/data
+      - pgdatastoring:/var/lib/postgresql/data
     networks:
       - backend
-
+  analysis_bd:
+    profiles: ["fileanalysis", "infrastructure"]
+    image: postgres:15
+    container_name: analysis_bd
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${ANALYSIS_POSTGRES_DB}
+    ports:
+      - "5433:5432"
+    volumes:
+      - pgdataanalysis:/var/lib/postgresql/data
+    networks:
+      - backend
 volumes:
-  postgres_data:
+  pgdataanalysis:
+  pgdatastoring:
 networks:
   backend:
     driver: bridge

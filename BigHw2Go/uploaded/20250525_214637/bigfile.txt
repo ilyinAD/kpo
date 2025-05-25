@@ -1,0 +1,16 @@
+Лекция № 17
+CQRS — архитектурный стиль или паттерн?
+
+Рассмотрели CQRS на уровне архитектуры (на уровне кода не успели, но про это скину видео). Поговорили о том, как поможет CQRS прросте нагрузки. Развеяли мифы о CQRS.
+
+Для закрепления материала:
+Command and Query Responsibility Segregation (CQRS) на практике: https://blog.byndyu.ru/2014/07/command-and-query-responsibility.html
+CQRS Documents by Greg Young
+https://cqrs.wordpress.com/wp-content/uploads/2010/11/cqrs_documents.pdf
+
+Очень хорошая статья, глубокая. Но в рамках текущей лекции она полезна тем, что показывается как CQRS идеально ложится на HTTP. Query — это GET-операции, а команды — это PUT, POST, DELETE — не надо ничего придумывать.
+https://habr.com/ru/companies/jugru/articles/447308/
+
+
+Эволюция и мифы CQRS / Андрей Цветцих (+ его презентация)
+https://youtu.be/PTr2xHr7nug

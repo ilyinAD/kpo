@@ -18,13 +18,8 @@ func NewWordCloudAPIUseCase(api *wordcloudapi.API, filesStorageUseCase *FilesSto
 	}
 }
 
-func (uc *WordCloudAPIUseCase) GetImage(reader io.Reader) (io.ReadCloser, error) {
-	text, err := io.ReadAll(reader)
-	if err != nil {
-		return nil, fmt.Errorf("io.ReadAll: %w", err)
-	}
-
-	resp, err := uc.api.GetWordCloud(string(text))
+func (uc *WordCloudAPIUseCase) GetImage(text string) (io.ReadCloser, error) {
+	resp, err := uc.api.GetWordCloud(text)
 	if err != nil {
 		return nil, fmt.Errorf("uc.api.GetWordCloud: %w", err)
 	}

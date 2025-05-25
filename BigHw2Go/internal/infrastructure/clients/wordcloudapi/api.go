@@ -2,6 +2,7 @@ package wordcloudapi
 
 import (
 	"fmt"
+	"time"
 
 	"github.com/caarlos0/env/v11"
 	"github.com/go-resty/resty/v2"
@@ -26,7 +27,11 @@ type API struct {
 	cfg    *APIConfig
 }
 
-func NewAPI(client *resty.Client, cfg *APIConfig) *API {
+func NewAPI(cfg *APIConfig) *API {
+	client := resty.New()
+	client.SetTimeout(5 * time.Second)
+	client.SetDoNotParseResponse(true)
+
 	return &API{
 		client: client,
 		cfg:    cfg,

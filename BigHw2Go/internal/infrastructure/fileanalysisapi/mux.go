@@ -5,9 +5,10 @@ import (
 	"net/http"
 )
 
-func NewMux(makeAnalysisHandler *handlers.MakeAnalysisHandler) *http.ServeMux {
+func NewMux(makeAnalysisHandler *handlers.MakeAnalysisHandler, getWordCloudHandler *handlers.GetWordCloudHandler) *http.ServeMux {
 	mux := http.NewServeMux()
 
 	mux.Handle("GET /file/analysis/{id}", makeAnalysisHandler)
+	mux.Handle("GET /file/analysis/wordcloud", getWordCloudHandler)
 	return mux
 }
