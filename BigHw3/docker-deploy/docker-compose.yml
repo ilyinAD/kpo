@@ -1,0 +1,39 @@
+version: '3.8'
+
+services:
+  storing_db:
+    profiles: ["payment", "infrastructure"]
+    image: postgres:15
+    container_name: storing_bd
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${PAYMENT_POSTGRES_DB}
+    ports:
+      - "${PAYMENT_DB_PORT}:5432"
+    volumes:
+      - pgdatapayment:/var/lib/postgresql/data
+    networks:
+      - backend
+    restart: unless-stopped
+  analysis_bd:
+    profiles: ["orders", "infrastructure"]
+    image: postgres:15
+    container_name: analysis_bd
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${ORDERS_POSTGRES_DB}
+    ports:
+      - "${ORDERS_DB_PORT}:5432"
+    volumes:
+      - pgdataorders:/var/lib/postgresql/data
+    networks:
+      - backend
+    restart: unless-stopped
+volumes:
+  pgdatapayment:
+  pgdataorders:
+networks:
+  backend:
+    driver: bridge
