@@ -1,16 +1,23 @@
 package migrations
 
 import (
+	"BigHw3/database/paymentconfig"
+	"BigHw3/database/pgxpoolcreator"
 	"BigHw3/migrations/payment"
+	"fmt"
 
-	"github.com/jackc/pgx/v5/pgxpool"
 	"go.uber.org/fx"
 )
 
 func FxModulePayment() fx.Option {
 	return fx.Options(
-		fx.Invoke(func(cfg *pgxpool.Config) error {
-			return Migrate(cfg, payment.EmbedPaymentMigrations)
+		fx.Invoke(func(cfg *paymentconfig.DBConfig) error {
+			pgxConfig, err := pgxpoolcreator.NewPgxPoolConfig(cfg)
+			if err != nil {
+				return fmt.Errorf("NewPgxPoolConfig: %w", err)
+			}
+
+			return Migrate(pgxConfig, payment.EmbedPaymentMigrations)
 		}),
 	)
 }

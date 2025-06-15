@@ -1,7 +1,6 @@
 package main
 
 import (
-	"BigHw3/database"
 	"BigHw3/internal/infrastructure"
 
 	"go.uber.org/fx"
@@ -11,8 +10,7 @@ import (
 
 func BuildApp() fx.Option {
 	return fx.Options(
-		database.FxModuleOrders(),
-		infrastructure.FxModuleOrders(),
+		infrastructure.FxModuleAPIGateway(),
 		fx.WithLogger(func(logger *zap.Logger) fxevent.Logger {
 			return &fxevent.ZapLogger{Logger: logger}
 		}),

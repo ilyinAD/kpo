@@ -1,4 +1,4 @@
-package paymentapi
+package paymentserviceconfig
 
 import (
 	"fmt"
@@ -13,15 +13,14 @@ type Config struct {
 
 func NewConfig() (*Config, error) {
 	cfg := &Config{}
-
 	err := env.Parse(cfg)
 	if err != nil {
-		return nil, fmt.Errorf("parse payment service config: %w", err)
+		return nil, fmt.Errorf("error parsing config: %w", err)
 	}
 
 	return cfg, nil
 }
 
 func (cfg *Config) Address() string {
-	return fmt.Sprintf(":%s", cfg.Port)
+	return fmt.Sprintf("%s:%s", cfg.Host, cfg.Port)
 }

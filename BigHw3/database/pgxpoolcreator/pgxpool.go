@@ -1,4 +1,4 @@
-package database
+package pgxpoolcreator
 
 import (
 	"BigHw3/database/dbconfig"
@@ -12,11 +12,11 @@ import (
 )
 
 func NewPgxPoolConfig(cfg dbconfig.DBConfig) (*pgxpool.Config, error) {
-	fmt.Println(cfg.ToDSN())
+	fmt.Printf("DSN: %s\n", cfg.ToDSN())
 
 	connConfig, err := pgxpool.ParseConfig(cfg.ToDSN())
 	if err != nil {
-		return nil, fmt.Errorf("pgxpool.NewPgxPool: %w", err)
+		return nil, fmt.Errorf("pgxpoolcreator.NewPgxPool: %w", err)
 	}
 
 	connConfig.MaxConns = 12
@@ -26,12 +26,17 @@ func NewPgxPoolConfig(cfg dbconfig.DBConfig) (*pgxpool.Config, error) {
 	return connConfig, nil
 }
 
-func NewPgxPool(connConfig *pgxpool.Config, lc fx.Lifecycle) (*pgxpool.Pool, error) {
+func NewPgxPool(cfg dbconfig.DBConfig, lc fx.Lifecycle) (*pgxpool.Pool, error) {
+	connConfig, err := NewPgxPoolConfig(cfg)
+	if err != nil {
+		return nil, fmt.Errorf("NewPgxPoolConfig: %w", err)
+	}
+
 	ctx := context.Background()
 
 	pool, err := pgxpool.NewWithConfig(ctx, connConfig)
 	if err != nil {
-		return nil, fmt.Errorf("pgxpool.NewWithConfig: %w", err)
+		return nil, fmt.Errorf("pgxpoolcreator.NewWithConfig: %w", err)
 	}
 
 	lc.Append(fx.Hook{OnStop: func(_ context.Context) error {

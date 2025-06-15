@@ -4,7 +4,7 @@ begin;
 
 create table if not exists payment (
      id bigint primary key,
-     balance bigint
+     balance bigint check (balance >= 0)
 );
 
 end;

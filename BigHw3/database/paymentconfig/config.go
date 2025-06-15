@@ -1,14 +1,13 @@
 package paymentconfig
 
 import (
-	"BigHw3/database/dbconfig"
 	"fmt"
 
 	"github.com/caarlos0/env/v11"
 )
 
 type DBConfig struct {
-	Host     string `env:"DB_HOST"`
+	Host     string `env:"PAYMENT_DB_HOST"`
 	Port     int    `env:"PAYMENT_DB_PORT"`
 	Username string `env:"POSTGRES_USER"`
 	Password string `env:"POSTGRES_PASSWORD"`
@@ -25,7 +24,7 @@ func (d *DBConfig) ToDSN() string {
 	)
 }
 
-func NewDBConfigFromEnv() (dbconfig.DBConfig, error) {
+func NewDBConfigFromEnv() (*DBConfig, error) {
 	cfg := &DBConfig{}
 
 	if err := env.Parse(cfg); err != nil {

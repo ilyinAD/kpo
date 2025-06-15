@@ -24,7 +24,7 @@ func NewUpdatePaymentHandler(paymentUseCase *paymentusecase.PaymentUseCase, logg
 
 func (h *UpdatePaymentHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	query := r.URL.Query()
-	id := query.Get("id")
+	id := r.PathValue("id")
 	balance := query.Get("balance")
 
 	paymentID, err := strconv.ParseInt(id, 10, 64)

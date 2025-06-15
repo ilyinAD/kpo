@@ -10,8 +10,7 @@ import (
 func FxModuleOrders() fx.Option {
 	return fx.Options(
 		fx.Provide(ordersconfig.NewDBConfigFromEnv),
-		fx.Provide(NewPgxPoolConfig),
-		fx.Provide(NewPgxPool),
+		fx.Provide(ordersconfig.NewOrdersPgxPool),
 		migrations.FxModuleOrders(),
 	)
 }

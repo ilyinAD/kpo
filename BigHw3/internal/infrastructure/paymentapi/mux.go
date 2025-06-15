@@ -8,9 +8,9 @@ import (
 func NewMux(createAccountHandler *handlers.CreatePaymentHandler, getAccountHandler *handlers.GetPaymentHandler, updatePaymentHandler *handlers.UpdatePaymentHandler) *http.ServeMux {
 	mux := http.NewServeMux()
 
-	mux.Handle("POST /payment/create", createAccountHandler)
-	mux.Handle("GET /payment/get/{id}", getAccountHandler)
-	mux.Handle("POST /payment/update", updatePaymentHandler)
+	mux.Handle("POST /payment/creation", createAccountHandler)
+	mux.Handle("GET /payment/{id}", getAccountHandler)
+	mux.Handle("POST /payment/{id}/deposit", updatePaymentHandler)
 
 	return mux
 }

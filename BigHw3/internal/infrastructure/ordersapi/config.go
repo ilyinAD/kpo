@@ -1,4 +1,4 @@
-package paymentapi
+package ordersapi
 
 import (
 	"fmt"
@@ -7,8 +7,8 @@ import (
 )
 
 type Config struct {
-	Port string `env:"PAYMENT_SERVICE_PORT"`
-	Host string `env:"PAYMENT_SERVICE_HOST"`
+	Port string `env:"ORDERS_SERVICE_PORT"`
+	Host string `env:"ORDERS_SERVICE_HOST"`
 }
 
 func NewConfig() (*Config, error) {

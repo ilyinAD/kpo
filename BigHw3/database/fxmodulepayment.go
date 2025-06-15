@@ -10,8 +10,7 @@ import (
 func FxModulePayment() fx.Option {
 	return fx.Options(
 		fx.Provide(paymentconfig.NewDBConfigFromEnv),
-		fx.Provide(NewPgxPoolConfig),
-		fx.Provide(NewPgxPool),
+		fx.Provide(paymentconfig.NewPaymentPgxPool),
 		migrations.FxModulePayment(),
 	)
 }

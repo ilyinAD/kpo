@@ -1,36 +1,56 @@
 version: '3.8'
 
 services:
-  storing_db:
+  payment_db:
     profiles: ["payment", "infrastructure"]
     image: postgres:15
-    container_name: storing_bd
+    container_name: payment_db
     environment:
       POSTGRES_USER: ${POSTGRES_USER}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
       POSTGRES_DB: ${PAYMENT_POSTGRES_DB}
-    ports:
-      - "${PAYMENT_DB_PORT}:5432"
+#    ports:
+#      - "${PAYMENT_DB_PORT}:${PAYMENT_DB_PORT}"
     volumes:
       - pgdatapayment:/var/lib/postgresql/data
     networks:
       - backend
     restart: unless-stopped
-  analysis_bd:
+  orders_bd:
     profiles: ["orders", "infrastructure"]
     image: postgres:15
-    container_name: analysis_bd
+    container_name: orders_db
     environment:
       POSTGRES_USER: ${POSTGRES_USER}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
       POSTGRES_DB: ${ORDERS_POSTGRES_DB}
-    ports:
-      - "${ORDERS_DB_PORT}:5432"
+#    ports:
+#      - "${ORDERS_DB_PORT}:${ORDERS_DB_PORT}"
     volumes:
       - pgdataorders:/var/lib/postgresql/data
     networks:
       - backend
     restart: unless-stopped
+  apigateway:
+    profiles: ["apigateway"]
+    build:
+      context: ../
+      dockerfile: docker-deploy/apigateway.Dockerfile
+    container_name: apigateway
+    ports:
+      - "${API_GATEWAY_PORT}:${API_GATEWAY_PORT}"
+    networks:
+      - backend
+  payment:
+    profiles: ["payment"]
+    build:
+      context: ../
+      dockerfile: docker-deploy/payment.Dockerfile
+    container_name: payment
+    ports:
+      - "${PAYMENT_SERVICE_PORT}:${PAYMENT_SERVICE_PORT}"
+    networks:
+      - backend
 volumes:
   pgdatapayment:
   pgdataorders:

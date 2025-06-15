@@ -16,7 +16,8 @@ type PaymentUseCase struct {
 	transactor        txs.Transactor
 }
 
-func NewPaymentUseCase(paymentRepository *paymentrepository.PaymentRepository, transactor txs.Transactor) *PaymentUseCase {
+func NewPaymentUseCase(paymentRepository *paymentrepository.PaymentRepository) *PaymentUseCase {
+	transactor := txs.NewTxBeginner(paymentRepository.Pool.Pool)
 	return &PaymentUseCase{paymentRepository, transactor}
 }
 

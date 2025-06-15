@@ -11,30 +11,41 @@ import (
 	"github.com/pressly/goose/v3"
 )
 
-func Migrate(cfg *pgxpool.Config, embedMigrations embed.FS) error {
+func Migrate(cfg *pgxpool.Config, embedMigrations embed.FS) (err error) {
 	log.Println("start migrations")
 
 	isMigrate := os.Getenv("IS_DOCKER_COMPOSE_MIGRATION")
 	if isMigrate == "true" {
-		fmt.Println("Migrations was ran by docker container")
+		log.Println("Migrations was ran by docker container")
 		return nil
 	}
 
-	fmt.Println("start migrations")
+	log.Println("migrations ok")
+
 	goose.SetBaseFS(embedMigrations)
+
+	log.Println("migrations ok")
 
 	if err := goose.SetDialect("postgres"); err != nil {
 		log.Fatal("goose.SetDialect", err)
 	}
 
+	log.Println("migrations ok")
+
 	db := stdlib.OpenDB(*(cfg.ConnConfig))
-	defer func() { _ = db.Close() }()
+	defer func() {
+		err = db.Close()
+	}()
+
+	log.Println("migrations ok")
 
 	if err := goose.Up(db, "."); err != nil {
 		return fmt.Errorf("goose.Up %w", err)
 	}
 
-	fmt.Println("migrations done")
+	log.Println("migrations ok")
+
+	log.Println("migrations done")
 
 	return nil
 }

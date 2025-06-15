@@ -1,4 +1,4 @@
-package paymentapi
+package ordersapi
 
 import (
 	"net/http"
